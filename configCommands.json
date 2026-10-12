@@ -1,7 +1,47 @@
 {
   "commandBanned": {},
+  "commandUnload": [
+    "sexvid.js",
+    "nigga.js",
+    "chud.js",
+    "mia.js",
+    "mygirl.js",
+    "needgf.js",
+    "butslap.js",
+    "fuck.js",
+    "fuck2.js",
+    "sadvideo.js",
+    "hack.js",
+    "jail.js",
+    "jail2.js",
+    "fakechat.js",
+    "callad.js",
+    "tempmail.js",
+    "acp.js",
+    "adduser.js",
+    "allbox.js",
+    "kickall.js",
+    "grouptag.js",
+    "adminmention.js",
+    "autolink.js",
+    "autoreact.js",
+    "sendnoti.js",
+    "eval.js",
+    "install.js",
+    "cmd.js",
+    "del.js",
+    "file.js",
+    "getfbstate.js",
+    "jsontomongodb.js",
+    "jsontosqlite.js",
+    "update.js",
+    "anti_isis_leave.js"
+  ],
+  "commandEventUnload": [
+    "autoinvite.js"
+  ],
   "envGlobal": {
-    "weatherApiKey": "d7e795ae6a0d44aaa8abb1a0a7ac19e4",
+    "weatherApiKey": "",
     "goatbotApikey": ""
   },
   "envCommands": {
