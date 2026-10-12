@@ -1,6 +1,7 @@
 /**
  * @author NTKhang
- * ... (بقية التعليقات كما هي) ...
+ * @author Acard (modified)
+ * Official source code: https://github.com/ntkhang03/Goat-Bot-V2
  */
 
 process.on('unhandledRejection', error => console.log(error));
@@ -9,24 +10,21 @@ process.on('uncaughtException', error => console.log(error));
 const axios = require("axios");
 const fs = require("fs-extra");
 const nodemailer = require("nodemailer");
-const { execSync } = require('child_process');
 const log = require('./logger/log.js');
 const path = require("path");
 
 process.env.BLUEBIRD_W_FORGOTTEN_RETURN = 0;
 
+// التحقق من صحة ملفات JSON بدون تشغيل npx (أسرع وأكثر أماناً على الاستضافة)
 function validJSON(pathDir) {
 	try {
 		if (!fs.existsSync(pathDir))
 			throw new Error(`File "${pathDir}" not found`);
-		execSync(`npx jsonlint "${pathDir}"`, { stdio: 'pipe' });
+		JSON.parse(fs.readFileSync(pathDir, 'utf-8'));
 		return true;
 	}
 	catch (err) {
 		let msgError = err.message;
-		msgError = msgError.split("\n").slice(1).join("\n");
-		const indexPos = msgError.indexOf("    at");
-		msgError = msgError.slice(0, indexPos != -1 ? indexPos - 1 : msgError.length);
 		throw new Error(msgError);
 	}
 }
@@ -186,17 +184,8 @@ if (config.autoRestart) {
 	}
 }
 
-// ✅ رسالة بدء التشغيل لكل المجموعات
-setTimeout(async () => {
-    try {
-        const threads = global.db?.allThreadData || [];
-        for (const t of threads) {
-            if (t.isGroup && t.threadID) {
-                api.sendMessage("🟢 | تم تشغيل البوت بنجاح", t.threadID).catch(() => {});
-            }
-        }
-    } catch (e) {}
-}, 5000);
+// ⛔ تم حذف رسالة "تم تشغيل البوت" التي كانت تُرسل لكل المجموعات عند كل تشغيل
+// (كانت تُرسل مع كل إعادة نشر / انهيار / إعادة تشغيل = سبام جماعي وخطر حظر)
 
 (async () => {
 	// ———————————————————— LOGIN ———————————————————— //
