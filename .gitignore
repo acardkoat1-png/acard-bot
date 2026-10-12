@@ -1,0 +1,31 @@
+# Dependencies and Replit-generated files
+node_modules/
+.cache/
+.local/
+.upm/
+
+# Runtime credentials and Facebook session data
+.env
+.env.*
+account.txt
+fb_dtsg_data.json
+config.json
+cookies/
+session/
+fbstate*.json
+*fbstate*.json
+
+# Local databases and runtime state
+*.sqlite
+*.sqlite3
+database/data/
+Fca_Database/
+scripts/cmds/*.json
+scripts/cmds/cache/
+scripts/cmds/tmp/
+logs/
+dashboard/uploads/
+
+# Archives and generated files
+*.zip
+generated-artifacts/

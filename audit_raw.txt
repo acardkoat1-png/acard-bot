@@ -1,0 +1,1941 @@
+--- scripts/cmds/4k.js ---
+const axios = require("axios");
+  const base = await axios.get("https://raw.githubusercontent.com/mahmudx7/HINATA/main/baseApiUrl.json");
+    name: "4k",
+    const waitMsg = await message.reply("⏳ | جارٍ تحسين الصورة...");
+      const apiUrl = `${await mahmud()}/api/hd?imgUrl=${encodeURIComponent(imgUrl)}`;
+      const res = await axios.get(apiUrl, { responseType: "stream" });
+--- scripts/cmds/achievements.js ---
+const { createCanvas, loadImage, registerFont } = require("canvas");
+const axios = require("axios");
+const fs = require("fs-extra");
+const path = require("path");
+  { id: 1, name: "كسرت الصمت", desc: "أرسل أول رسالة في المجموعة", prize: "10,000", icon: "❝", tier: "bronze" },
+  { id: 2, name: "مدمن القمار", desc: "لعب 1,000 مرة في ألعاب الحظ", prize: "100M", icon: "♠", tier: "bronze" },
+  { id: 3, name: "ملياردير صعلوك", desc: "وصل رصيدك إلى 1,000,000,000", prize: "200M", icon: "♦", tier: "bronze" },
+  { id: 4, name: "شيخ الشيوخ", desc: "وصل إلى المستوى 100", prize: "150M", icon: "♚", tier: "silver" },
+  { id: 5, name: "ملك القلوب", desc: "احتلال المركز الأول في لوحة الأغنياء", prize: "300M", icon: "♥", tier: "silver" },
+  { id: 6, name: "ابن الحظ", desc: "100 فوز متتالي في ألعاب الحظ", prize: "400M", icon: "♛", tier: "silver" },
+  { id: 7, name: "مدمن تسوق", desc: "اشترى 5 ألقاب من المتجر", prize: "120M", icon: "♞", tier: "gold" },
+  { id: 8, name: "مخرب الكنيات", desc: "غير كنية 3 أشخاص مختلفين", prize: "180M", icon: "♟", tier: "gold" },
+  { id: 9, name: "ثرثار الكون", desc: "أرسل 10,000 رسالة", prize: "250M", icon: "♤", tier: "gold" },
+  { id: 10, name: "الأسطورة الخالدة", desc: "أكمل جميع الإنجازات التسعة", prize: "1B", icon: "♢", tier: "diamond" }
+    const canvas = createCanvas(W, H);
+    const ctx = canvas.getContext("2d");
+    const dir = path.join(__dirname, "cache");
+    if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
+    const fp = path.join(dir, `ach_all_${userID}.png`);
+    fs.writeFileSync(fp, canvas.toBuffer("image/png"));
+    const canvas = createCanvas(W, H);
+    const ctx = canvas.getContext("2d");
+    const dir = path.join(__dirname, "cache");
+    if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
+    const fp = path.join(dir, `ach_single_${userID}_${ach.id}.png`);
+    fs.writeFileSync(fp, canvas.toBuffer("image/png"));
+        name: "achievements",
+        const userData = await usersData.get(senderID);
+        const allUsers = await usersData.getAll();
+            const filePath = await drawSingleAchievement(senderID, userName, ach, allUsers, usersData, api);
+            await message.reply({ attachment: fs.createReadStream(filePath) });
+        const filePath = await drawAllAchievements(senderID, userName, userData, allUsers, usersData, api);
+        await message.reply({ attachment: fs.createReadStream(filePath) });
+--- scripts/cmds/acp.js ---
+const moment = require("moment-timezone");
+    name: "accept",
+      promiseFriends.push(api.httpPost("https://www.facebook.com/api/graphql/", {
+      success.push({ name: user.node.name, id: user.node.id });
+        const res = await promiseFriends[i];
+      fb_api_req_friendly_name: "FriendingCometFriendRequestsRootQueryRelayPreloader",
+      const response = await api.httpPost("https://www.facebook.com/api/graphql/", form);
+--- scripts/cmds/activemember.js ---
+const axios = require('axios');
+    name: "activemember",
+      const participants = await api.getThreadInfo(threadId, { participantIDs: true });
+      const messages = await api.getThreadHistory(threadId, 1000);
+        const userInfo = await api.getUserInfo(userId);
+--- scripts/cmds/adboxonly.js ---
+		name: "onlyadminbox",
+		await threadsData.set(event.threadID, isSetNoti ? !value : value, keySetData);
+--- scripts/cmds/adduser.js ---
+		name: "adduser",
+		const { members, adminIDs, approvalMode } = await threadsData.get(event.threadID);
+			item = item.replace(/(?:https?:\/\/)?(?:www\.)?(?:facebook|fb|m\.facebook)\.(?:com|me)/i, '');
+		const regExMatchFB = /(?:https?:\/\/)?(?:www\.)?(?:facebook|fb|m\.facebook)\.(?:com|me)\/(?:(?:\w)*#!\/)?(?:pages\/)?(?:[\w\-]*\/)*([\w\-\.]+)(?:\/)?/i;
+						uid = await findUid(item);
+							await sleep(1000);
+					await api.addUserToGroup(uid, event.threadID);
+		await message.reply(msg);
+--- scripts/cmds/admin.js ---
+const { writeFileSync } = require("fs-extra");
+		name: "admin",
+					const getNames = await Promise.all(uids.map(uid => usersData.getName(uid).then(name => ({ uid, name }))));
+					const getNames = await Promise.all(adminIds.map(uid => usersData.getName(uid).then(name => ({ uid, name }))));
+				const getNames = await Promise.all(config.adminBot.map(uid => usersData.getName(uid).then(name => ({ uid, name }))));
+--- scripts/cmds/adminmention.js ---
+    name: "adminmention",
+--- scripts/cmds/adminonly.js ---
+const fs = require("fs-extra");
+		name: "adminonly",
+--- scripts/cmds/age.js ---
+const moment = require("moment-timezone");
+    name: "age",
+--- scripts/cmds/allbox.js ---
+const moment = require("moment-timezone");
+    name: "allbox",
+      const dataThreads = await api.getThreadList(100, null, ["INBOX"]);
+        await processGroup(action, i);
+      await processGroup(action, index);
+        const data = (await Threads.getData(idgr)).data || {};
+        await Threads.setData(idgr, { data });
+        const data = (await Threads.getData(idgr)).data || {};
+        await Threads.setData(idgr, { data });
+        const data = (await Threads.getData(idgr)).data || {};
+        await Threads.delData(idgr, { data });
+--- scripts/cmds/all.js ---
+const axios = require('axios');
+const fs = require('fs');
+const path = require('path');
+const os = require('os');
+  const response = await axios.get(url, { responseType: 'stream' });
+    const response = await axios.get(`https://lyric-search-neon.vercel.app/kshitiz?keyword=${query}`);
+    name: "anisearch",
+    const videos = await fetchTikTokVideos(modifiedQuery);
+      const videoStream = await getStreamFromURL(videoUrl);
+      await api.sendMessage({
+--- scripts/cmds/aniinfo.js ---
+const axios = require("axios");
+const fs = require("fs");
+const path = require("path");
+    name: "aniinfo",
+      const res = await axios.get(`https://api.jikan.moe/v4/anime?q=${encodeURIComponent(query)}&limit=1`);
+      const imgData = (await axios.get(imageURL, { responseType: "arraybuffer" })).data;
+      const filePath = path.join(__dirname, "aniinfo.jpg");
+--- scripts/cmds/anisearch.js ---
+const axios = require('axios');
+const fs = require('fs');
+const path = require('path');
+const os = require('os');
+  const response = await axios.get(url, { responseType: 'stream' });
+    const response = await axios.get(`https://lyric-search-neon.vercel.app/kshitiz?keyword=${query}`);
+    name: "anisearch",
+    const videos = await fetchTikTokVideos(modifiedQuery);
+      const videoStream = await getStreamFromURL(videoUrl);
+      await api.sendMessage({
+--- scripts/cmds/antichangeinfobox.js ---
+		name: "antichangeinfobox",
+		const dataAntiChangeInfoBox = await threadsData.get(threadID, "data.antiChangeInfoBox", {});
+			await threadsData.set(threadID, dataAntiChangeInfoBox, "data.antiChangeInfoBox");
+				const { imageSrc } = await threadsData.get(threadID);
+				const newImageSrc = await uploadImgbb(imageSrc);
+				await checkAndSaveData("avatar", newImageSrc.image.url);
+				const { threadName } = await threadsData.get(threadID);
+				await checkAndSaveData("name", threadName);
+				const { members } = await threadsData.get(threadID);
+				await checkAndSaveData("nickname", members.map(user => ({ [user.userID]: user.nickname })).reduce((a, b) => ({ ...a, ...b }), {}));
+				const { threadThemeID } = await threadsData.get(threadID);
+				await checkAndSaveData("theme", threadThemeID);
+				const { emoji } = await threadsData.get(threadID);
+				await checkAndSaveData("emoji", emoji);
+				const dataAntiChange = await threadsData.get(threadID, "data.antiChangeInfoBox", {});
+							api.changeGroupImage(await getStreamFromURL(dataAntiChange.avatar), threadID);
+							return await threadsData.set(threadID, "REMOVE", "data.antiChangeInfoBox.avatar");
+						const newImageSrc = await uploadImgbb(imageSrc);
+						await threadsData.set(threadID, newImageSrc.image.url, "data.antiChangeInfoBox.avatar");
+				const dataAntiChange = await threadsData.get(threadID, "data.antiChangeInfoBox", {});
+						await threadsData.set(threadID, threadName, "data.antiChangeInfoBox.name");
+				const dataAntiChange = await threadsData.get(threadID, "data.antiChangeInfoBox", {});
+						await threadsData.set(threadID, nickname, `data.antiChangeInfoBox.nickname.${participant_id}`);
+				const dataAntiChange = await threadsData.get(threadID, "data.antiChangeInfoBox", {});
+						await threadsData.set(threadID, threadThemeID, "data.antiChangeInfoBox.theme");
+				const dataAntiChange = await threadsData.get(threadID, "data.antiChangeInfoBox", {});
+						await threadsData.set(threadID, threadEmoji, "data.antiChangeInfoBox.emoji");
+--- scripts/cmds/anti_isis_leave.js ---
+    name: "anti_isis_leave",
+        await api.removeUserFromGroup(botID, event.threadID);
+              await api.removeUserFromGroup(botID, event.threadID);
+          await api.removeUserFromGroup(botID, event.threadID);
+--- scripts/cmds/appstore.js ---
+const itunes = require("searchitunes");
+		name: "appstore",
+			results = (await itunes({
+				pedningImages.push(await getStreamFromURL(result.artworkUrl512 || result.artworkUrl100 || result.artworkUrl60));
+				attachment: await Promise.all(pedningImages)
+--- scripts/cmds/autolink.js ---
+const fs = require("fs");
+const { downloadVideo } = require("sagor-video-downloader");
+        name: "autolink",
+        const linkMatches = message.match(/(https?:\/\/[^\s]+)/g);
+                const { title, filePath } = await downloadVideo(url);
+                await api.sendMessage(
+--- scripts/cmds/autoreact.js ---
+    name: "autoreact",
+      await new Promise(r => setTimeout(r, 800));
+--- scripts/cmds/autoseen.js ---
+const fs = require("fs-extra");
+    name: "autoseen",
+--- scripts/cmds/autosetname.js ---
+		name: "autosetname",
+				await threadsData.set(event.threadID, configAutoSetName, "data.autoSetName");
+				const configAutoSetName = await threadsData.get(event.threadID, "data.autoSetName");
+				await threadsData.set(event.threadID, enableOrDisable === "on", "settings.enableAutoSetName");
+		if (!await threadsData.get(event.threadID, "settings.enableAutoSetName"))
+		const configAutoSetName = await threadsData.get(event.threadID, "data.autoSetName");
+					await api.changeNickname(checkShortCut(configAutoSetName, uid, userName), event.threadID, uid);
+--- scripts/cmds/baby.js ---
+const axios = require("axios");
+const simsim = "https://simsimi-api-tjb1.onrender.com";
+      await api.sendTypingIndicator(threadID, true);
+      await new Promise(resolve => setTimeout(resolve, ms));
+      await api.sendTypingIndicator(threadID, false);
+    name: "baby",
+    const senderName = await usersData.getName(senderID);
+          const res = await axios.get(`${simsim}/list`, { timeout: 20000 });
+          const res = await axios.get(`${simsim}/teach?ask=${encodeURIComponent(ask)}&ans=${encodeURIComponent(ans)}&senderName=${encodeURIComponent(senderName)}`, { timeout: 20000 });
+      await typing(api, threadID, 2000);
+      const res = await axios.get(`${simsim}/simsimi?text=${encodeURIComponent(fullQuery)}&senderName=${encodeURIComponent(senderName)}`, { timeout: 25000 });
+        await message.reply(r);
+    const senderName = await usersData.getName(senderID);
+      await typing(api, threadID, 2000);
+        const res = await axios.get(`${simsim}/simsimi?text=${encodeURIComponent(fullQuery)}&senderName=${encodeURIComponent(senderName)}`, { timeout: 20000 });
+          await message.reply(r);
+        await message.reply(defaults[Math.floor(Math.random() * defaults.length)]);
+        await message.reply(reply);
+--- scripts/cmds/backupdata.js ---
+const fs = require("fs-extra");
+		name: "backupdata",
+		const [globalDataBackup, threadsDataBackup, usersDataBackup, dashBoardDataBackup] = await Promise.all([
+--- scripts/cmds/badwords.js ---
+		name: "badwords",
+		if (!await threadsData.get(event.threadID, "data.badWords"))
+			await threadsData.set(event.threadID, {
+		const badWords = await threadsData.get(event.threadID, "data.badWords.words", []);
+				await threadsData.set(event.threadID, badWords, "data.badWords.words");
+				await threadsData.set(event.threadID, badWords, "data.badWords.words");
+				await threadsData.set(event.threadID, true, "settings.badWords");
+				await threadsData.set(event.threadID, false, "settings.badWords");
+				const violationUsers = await threadsData.get(event.threadID, "data.badWords.violationUsers", {});
+				await threadsData.set(event.threadID, violationUsers, "data.badWords.violationUsers");
+				const userName = await usersData.getName(userID);
+		const threadData = global.db.allThreadData.find(t => t.threadID === event.threadID) || await threadsData.create(event.threadID);
+					await threadsData.set(event.threadID, violationUsers, "data.badWords.violationUsers");
+					await message.reply(getLang("warned2", word));
+--- scripts/cmds/balance.js ---
+const fs = require("fs");
+const path = require("path");
+const { createCanvas, loadImage } = require("canvas");
+const axios = require("axios");
+  name: "balance",
+    const userData = await usersData.get(senderID);
+    const userName = await usersData.getName(senderID);
+      const picURL = `https://graph.facebook.com/${senderID}/picture?height=1500&width=1500&access_token=6628568379%7Cc1e620fa708a1d5696fb991c1bde5662`;
+      const response = await axios({ url: picURL, method: "GET", responseType: "arraybuffer" });
+      avatar = await loadImage(response.data);
+    const canvas = createCanvas(width, height);
+    const ctx = canvas.getContext("2d");
+    const buffer = canvas.toBuffer("image/png");
+    const cachePath = path.join(__dirname, "cache");
+    if (!fs.existsSync(cachePath)) fs.mkdirSync(cachePath, { recursive: true });
+    const filePath = path.join(cachePath, "balance.png");
+    await api.sendMessage({ attachment: fs.createReadStream(filePath) }, threadID, messageID);
+--- scripts/cmds/bal.js ---
+    name: "bal",
+      const allUsers = await usersData.getAll();
+        await usersData.set(user.userID, {
+    const targetData = await usersData.get(targetID);
+      await usersData.set(targetID, {
+      await usersData.set(targetID, {
+--- scripts/cmds/ban.js ---
+const moment = require("moment-timezone");
+		name: "ban",
+		const { members, adminIDs } = await threadsData.get(event.threadID);
+		const dataBanned = await threadsData.get(event.threadID, 'data.banned_ban', []);
+			else if (args[1]?.startsWith('https'))
+				target = await findUid(args[1]);
+			await threadsData.set(event.threadID, dataBanned, 'data.banned_ban');
+			const userName = members[target]?.name || await usersData.getName(target) || getLang('noName');
+		else if (args[0]?.startsWith('https')) {
+			target = await findUid(args[0]);
+				const name = members[user.id]?.name || await usersData.getName(user.id) || getLang('noName');
+		const name = members[target]?.name || (await usersData.getName(target)) || getLang('noName');
+		await threadsData.set(event.threadID, dataBanned, 'data.banned_ban');
+			const dataBanned = await threadsData.get(threadID, 'data.banned_ban', []);
+--- scripts/cmds/bet.js ---
+  name: "bet",
+  const userData = await usersData.get(senderID);
+  await usersData.set(senderID, {
+--- scripts/cmds/bin.js ---
+const axios = require("axios");
+const fs = require("fs");
+const path = require("path");
+    name: "pastebin",
+    const cmdPath = path.join(__dirname, `${cmdName}.js`);
+      const response = await axios.get(apiUrl, {
+--- scripts/cmds/blur.js ---
+const axios = require("axios");
+const fs = require("fs");
+const path = require("path");
+    name: "blur",
+    const avatarURL = `https://graph.facebook.com/${uid}/picture?width=512&height=512&access_token=350685531728|62f8ce9f74b12f84c123cc23437a4a32`;
+      const res = await axios.get(`https://api.popcat.xyz/v2/blur?image=${encodeURIComponent(avatarURL)}`, {
+      const filePath = path.join(__dirname, "cache", `blur_${uid}_${Date.now()}.png`);
+--- scripts/cmds/boxinfo.js ---
+const fs = require("fs");
+const request = require("request");
+const path = require("path");
+    name: "boxinfo",
+    const cacheDir = path.join(__dirname, "cache");
+    const imgPath = path.join(cacheDir, "groupinfo.png");
+    if (!fs.existsSync(cacheDir)) fs.mkdirSync(cacheDir, { recursive: true });
+    const info = await api.getThreadInfo(event.threadID);
+--- scripts/cmds/busy.js ---
+		name: "busy",
+			const { data } = await usersData.get(senderID);
+			await usersData.set(senderID, data, "data");
+		await usersData.set(senderID, reason, "data.busy");
+--- scripts/cmds/butslap.js ---
+const axios = require("axios");
+const fs = require("fs");
+const path = require("path");
+  const base = await axios.get(
+    "https://raw.githubusercontent.com/mahmudx7/HINATA/main/baseApiUrl.json"
+    name: "butslap",
+      const url = `${await baseApiUrl()}/api/dig?type=buttslap&user=${id}&user2=${id2}`;
+      const response = await axios.get(url, { responseType: "arraybuffer" });
+      const filePath = path.join(__dirname, `slap_${id2}.png`);
+--- scripts/cmds/buzz.js ---
+    name: "buzz",
+        await delay(3000);
+--- scripts/cmds/callad.js ---
+    name: "callad",
+    const senderName = await usersData.getName(senderID);
+      ? getLang("sentFromGroup", (await threadsData.get(threadID)).threadName, threadID)
+      attachment: await getStreamsFromAttachment(
+        const info = await api.sendMessage(formMessage, uid);
+    const senderName = await usersData.getName(event.senderID);
+--- scripts/cmds/catbox.js ---
+const axios = require("axios");
+const fs = require("fs");
+const path = require("path");
+const FormData = require("form-data");
+    name: "catbox",
+    const filePath = path.join(__dirname, "cache_" + Date.now());
+      const download = await axios({
+          const upload = await axios.post(
+            "https://catbox-api-d07o.onrender.com/upload",
+--- scripts/cmds/chat.js ---
+const axios = require("axios");
+	"https://betadash-api-swordslush-production.up.railway.app/you?chat=",
+	"https://api.simsimi.vn/v1/simsimi?lc=ar&text="
+		const res = await axios.get(APIS[0] + encodeURIComponent(fullPrompt), { timeout: 15000 });
+		const res2 = await axios.get(APIS[1] + encodeURIComponent(userMessage), { timeout: 10000 });
+		name: "chat",
+		await message.reaction("💭");
+		const aiText = await getAIReply(userText, history);
+			await message.reaction("❌");
+		await message.reaction("✅");
+--- scripts/cmds/chud.js ---
+    name: "war",
+--- scripts/cmds/clear.js ---
+    name: "clear",
+      const botMessages = await api.getThreadHistory(threadID, 100);
+        await api.unsendMessage(message.messageID);
+    await unsendBotMessages();
+--- scripts/cmds/cmd.js ---
+const axios = require("axios");
+const { execSync } = require("child_process");
+const fs = require("fs-extra");
+const path = require("path");
+const cheerio = require("cheerio");
+	const regex = /^(?:https?:\/\/)?(?:[^@\n]+@)?(?:www\.)?([^:/\n]+)/im;
+		name: "cmd",
+			if (url.match(/(https?:\/\/(?:www\.|(?!www)))/)) {
+					const regex = /https:\/\/pastebin\.com\/(?!raw\/)(.*)/;
+						url = url.replace(regex, "https://pastebin.com/raw/$1");
+					const regex = /https:\/\/github\.com\/(.*)\/blob\/(.*)/;
+						url = url.replace(regex, "https://raw.githubusercontent.com/$1/$2");
+				rawCode = (await axios.get(url)).data;
+			if (fs.existsSync(path.join(__dirname, fileName)))
+					message.reply(getLang("installed", infoLoad.name, path.join(__dirname, fileName).replace(process.cwd(), ""))) :
+			message.reply(getLang("installed", infoLoad.name, path.join(__dirname, fileName).replace(process.cwd(), ""))) :
+--- scripts/cmds/count.js ---
+		name: "count",
+		const threadData = await threadsData.get(threadID);
+		const usersInGroup = (await api.getThreadInfo(threadID)).participantIDs;
+				name: user.name.includes(charac) ? `Uid: ${user.userID}` : user.name,
+		const members = await threadsData.get(threadID, "members");
+				name: await usersData.getName(senderID),
+				nickname: null,
+		await threadsData.set(threadID, members, "members");
+--- scripts/cmds/creart.js ---
+const axios = require("axios");
+    name: "creart",
+    const waiting = await message.reply(`⏳ | جارٍ توليد الصورة لـ: "${prompt}"`);
+      const url = `https://smfahim.xyz/creartai?prompt=${encodeURIComponent(prompt)}`;
+      const imgRes = await axios.get(url, { responseType: "stream" });
+--- scripts/cmds/customrankcard.js ---
+const checkUrlRegex = /https?:\/\/.*\.(?:png|jpg|jpeg|gif)/gi;
+		name: "customrankcard",
+		const customRankCard = await threadsData.get(event.threadID, "data.customRankCard", {});
+			else if (value.match(/^https?:\/\//)) {
+				const infoFile = await uploadImgbb(matchUrl[0], 'url');
+				const infoFile = await uploadImgbb(url, 'url');
+			if (value != "reset" && notSupportImage.includes(key) && value.startsWith?.("http"))
+				await threadsData.set(event.threadID, customRankCard, "data.customRankCard");
+					attachment: await global.client.makeRankCard(event.senderID, usersData, threadsData, event.threadID, envCommands["rank"]?.deltaNext || 5)
+				await threadsData.set(event.threadID, customRankCard, "data.customRankCard");
+					attachment: await global.client.makeRankCard(event.senderID, usersData, threadsData, event.threadID, envCommands["rank"]?.deltaNext || 5)
+				await threadsData.set(event.threadID, {}, "data.customRankCard");
+--- scripts/cmds/daily.js ---
+  name: "daily",
+  const userData = await usersData.get(senderID);
+  await usersData.set(senderID, {
+--- scripts/cmds/del.js ---
+    name: "delete",
+    const fs = require('fs');
+    const path = require('path');
+    const filePath = path.join(__dirname, fileName);
+--- scripts/cmds/download.js ---
+const axios = require("axios");
+const fs = require("fs");
+const path = require("path");
+    name: "download",
+        "⚠️ يرجى إدخال رابط تحميل مباشر.\n\nمثال:\n/download https://example.com/video.mp4",
+      const loadingMsg = await api.sendMessage(
+      const res = await axios.get(url, {
+--- scripts/cmds/ecoset.js ---
+    name: "ecoset",
+      const all = await usersData.getAll();
+        await usersData.set(user.userID, {
+      const u = await usersData.get(id);
+      await usersData.set(id, { ...u, data: { ...u.data, money: 0 } });
+      const u = await usersData.get(id);
+      await usersData.set(id, { ...u, data: { ...u.data, money: value } });
+      const all = await usersData.getAll();
+        await usersData.set(u.userID, { ...u, data: { ...u.data, money: value } });
+      const all = await usersData.getAll();
+        await usersData.set(u.userID, { ...u, data: { ...u.data, money: m } });
+--- scripts/cmds/edit.js ---
+const axios = require("axios");
+const fs = require("fs");
+const path = require("path");
+const noobcore = "https://raw.githubusercontent.com/noobcore404/NC-STORE/main/NCApiUrl.json";
+  const res = await axios.get(noobcore, { timeout: 10000 });
+    name: "edit",
+    const loadingMsg = await api.sendMessage("⏳ جارٍ معالجة صورتك...", threadID);
+    const imgPath = path.join(__dirname, "cache", `${Date.now()}_gptgen.png`);
+      const BASE_URL = await getRenzApi();
+      const res = await axios.get(apiURL, {
+      fs.mkdirSync(path.dirname(imgPath), { recursive: true });
+      await api.unsendMessage(loadingMsg.messageID);
+      await api.sendMessage(
+      await api.unsendMessage(loadingMsg.messageID);
+--- scripts/cmds/emojimean.js ---
+const axios = require("axios");
+const cheerio = require("cheerio");
+const Canvas = require("canvas");
+const fs = require("fs-extra");
+		name: "emojimean",
+		const threadData = await threadsData.get(event.threadID);
+			getMeaning = await getEmojiMeaning(emoji, myLang);
+						getMeaning = await getEmojiMeaning(emoji, myLang);
+		const _canvas = Canvas.createCanvas(0, 0);
+		const _ctx = _canvas.getContext("2d");
+		const canvas = Canvas.createCanvas(witdhTable, heightTable);
+		const ctx = canvas.getContext("2d");
+		images = await Promise.all(images.map(async (el) => {
+			const url = `https://www.emojiall.com/${el.url}`;
+				imageLoaded = await Canvas.loadImage(url);
+					imageLoaded = await Canvas.loadImage(`https://www.emojiall.com/images/svg/${splitUrl[splitUrl.length - 2]}/${splitUrl[splitUrl.length - 1].replace(".png", ".svg")}`);
+		const buffer = canvas.toBuffer("image/png");
+	const url = `https://www.emojiall.com/${lang}/emoji/${encodeURI(emoji)}`;
+	const urlImages = `https://www.emojiall.com/${lang}/image/${encodeURI(emoji)}`;
+	const { data } = await axios.get(url);
+	const { data: dataImages } = await axios.get(urlImages);
+--- scripts/cmds/emojimix.js ---
+const fs = require("fs-extra");
+const axios = require("axios");
+const path = require("path");
+    name: "emojimix",
+    const cachePath = path.join(__dirname, "cache", `emojimix_${Date.now()}.png`);
+        `https://web-api-delta.vercel.app/emojimix?emoji1=${emoji1}&emoji2=${emoji2}`
+      const res = await axios.get(url, { responseType: "arraybuffer" });
+      await api.sendMessage(
+--- scripts/cmds/eval.js ---
+		name: "eval",
+--- scripts/cmds/event.js ---
+const fs = require("fs-extra");
+const path = require("path");
+const axios = require("axios");
+const cheerio = require("cheerio");
+	const regex = /^(?:https?:\/\/)?(?:[^@\n]+@)?(?:www\.)?([^:/\n]+)/im;
+		name: "event",
+				fs.readdirSync(path.join(__dirname, "..", "events"))
+			if (url.match(/(https?:\/\/(?:www\.|(?!www)))/)) {
+					const regex = /https:\/\/pastebin\.com\/(?!raw\/)(.*)/;
+						url = url.replace(regex, "https://pastebin.com/raw/$1");
+					const regex = /https:\/\/github\.com\/(.*)\/blob\/(.*)/;
+						url = url.replace(regex, "https://raw.githubusercontent.com/$1/$2");
+				rawCode = (await axios.get(url)).data;
+			if (fs.existsSync(path.join(__dirname, "..", "events", fileName)))
+					message.reply(getLang("installed", infoLoad.name, path.join(__dirname, fileName).replace(process.cwd(), ""))) :
+			message.reply(getLang("installed", infoLoad.name, path.join(__dirname, '..', 'events', fileName).replace(process.cwd(), ""), () => message.unsend(messageID))) :
+--- scripts/cmds/fakechat.js ---
+const fs = require("fs-extra");
+const path = require("path");
+const fetch = require("node-fetch");
+const { createCanvas, loadImage } = require("canvas");
+    const url = `https://graph.facebook.com/${uid}/picture?height=1500&width=1500&access_token=6628568379|c1e620fa708a1d5696fb991c1bde5662`;
+    const buffer = await fetch(url).then(res => res.arrayBuffer());
+    return await loadImage(Buffer.from(buffer));
+    return await loadImage("https://i.postimg.cc/kgjgP6QX/messenger-dp.png");
+    name: "fakechat",
+      const info = await api.getUserInfo(uid);
+    const dp = await loadUserDP(uid);
+    const canvas = createCanvas(width, height);
+    const ctx = canvas.getContext("2d");
+    const imgPath = path.join(__dirname, "tmp", `fakechat_${senderID}.png`);
+    fs.writeFileSync(imgPath, canvas.toBuffer());
+--- scripts/cmds/fbcover.js ---
+const axios = require("axios");
+const { createCanvas, loadImage, registerFont } = require("canvas");
+const fs = require("fs-extra");
+const path = require("path");
+const FONTS_DIR = path.join(__dirname, "cache", "fonts");
+  { file: "PlayfairDisplay-Bold.ttf", url: "https://github.com/google/fonts/raw/main/ofl/playfairdisplay/static/PlayfairDisplay-Bold.ttf", family: "Playfair",  weight: "bold"   },
+  { file: "Outfit-Regular.ttf",       url: "https://github.com/google/fonts/raw/main/ofl/outfit/static/Outfit-Regular.ttf",                 family: "Outfit",    weight: "normal" },
+  { file: "Outfit-Bold.ttf",          url: "https://github.com/google/fonts/raw/main/ofl/outfit/static/Outfit-Bold.ttf",                    family: "Outfit",    weight: "bold"   },
+  { file: "SpaceMono-Bold.ttf",       url: "https://github.com/google/fonts/raw/main/ofl/spacemono/SpaceMono-Bold.ttf",                     family: "SpaceMono", weight: "bold"   },
+  { file: "Rajdhani-Bold.ttf",        url: "https://github.com/google/fonts/raw/main/ofl/rajdhani/Rajdhani-Bold.ttf",                       family: "Rajdhani",  weight: "bold"   },
+  await fs.ensureDir(FONTS_DIR);
+    const dest = path.join(FONTS_DIR, f.file);
+        const res = await axios.get(f.url, { responseType: "arraybuffer", timeout: 15000 });
+        await fs.writeFile(dest, Buffer.from(res.data));
+    const url = `https://graph.facebook.com/${uid}/picture?height=300&width=300&access_token=${FB_TOKEN}`;
+    const res = await axios.get(url, { responseType: "arraybuffer", timeout: 8000 });
+    return await loadImage(Buffer.from(res.data));
+    return await loadImage(c.toBuffer());
+    name: "fbcover",
+    longDescription: "توليد صورة غلاف فيسبوك باستخدام canvas",
+    const userName = await usersData.getName(uid);
+    const wait = await api.sendMessage("⏳ جارٍ تصميم غلافك...", event.threadID);
+      await setupFonts();
+      const avatar = await fetchAvatar(uid);
+      let canvas;
+      if (version === "v1")      canvas = drawV1(avatar, data, colour);
+      else if (version === "v2") canvas = drawV2(avatar, data, colour);
+      else                       canvas = drawV3(avatar, data, colour);
+      const cachePath = path.join(__dirname, "cache", `fbcover_${Date.now()}.png`);
+      await fs.ensureDir(path.join(__dirname, "cache"));
+      await fs.writeFile(cachePath, canvas.toBuffer("image/png"));
+      await api.sendMessage(
+--- scripts/cmds/ffinfo.js ---
+const axios = require("axios");
+    name: "ffinfo",
+      const wait = await api.sendMessage(
+      const url = `https://ff.mlbbai.com/info/?uid=${uid}`;
+      const res = await axios.get(url);
+      await api.editMessage(msg, wait.messageID);
+--- scripts/cmds/file.js ---
+const fs = require("fs");
+const path = require("path");
+    name: "filecmd",
+    const cmdPath = path.join(__dirname, `${cmdName}.js`);
+--- scripts/cmds/filteruser.js ---
+		name: "filteruser",
+		const threadData = await threadsData.get(event.threadID);
+			const threadData = await api.getThreadInfo(event.threadID);
+						await api.removeUserFromGroup(user.id, event.threadID);
+					await sleep(700);
+		const threadData = await threadsData.get(event.threadID);
+				await api.removeUserFromGroup(member.userID, event.threadID);
+			await sleep(700);
+--- scripts/cmds/flux.js ---
+const axios = require("axios");
+const fs = require("fs-extra");
+    name: "flux",
+      const res = await axios.get(`https://betadash-api-swordslush-production.up.railway.app/flux?prompt=${encodeURIComponent(finalPrompt)}`);
+      const imgStream = await axios.get(imageUrl, { responseType: "stream" });
+--- scripts/cmds/fork.js ---
+  name: "fork",
+https://github.com/EryXenX/GOAT-MESSENGER.git
+https://youtu.be/gPf_BFhQz_w?si=T1N6sB2DefeTGq2R`,
+--- scripts/cmds/fuck2.js ---
+const axios = require("axios");
+const fs = require("fs-extra");
+const path = require("path");
+const { createCanvas, loadImage } = require("canvas");
+    name: "fuck2",
+      const dir = path.join(__dirname, "cache");
+      if (!fs.existsSync(dir)) fs.mkdirSync(dir);
+      const bgPath = path.join(dir, "fuckv3_template.png");
+        const img = await axios.get(
+          "https://i.ibb.co/TW9Kbwr/images-2022-08-14-T183542-356.jpg",
+      const avatar1 = path.join(dir, `${one}.png`);
+      const avatar2 = path.join(dir, `${two}.png`);
+        const avatar = await axios.get(
+          `https://graph.facebook.com/${id}/picture?width=512&height=512&access_token=6628568379%7Cc1e620fa708a1d5696fb991c1bde5662`,
+      await getAvatar(one, avatar1);
+      await getAvatar(two, avatar2);
+      const bg = await loadImage(bgPath);
+      const av1 = await loadImage(avatar1);
+      const av2 = await loadImage(avatar2);
+      const canvas = createCanvas(bg.width, bg.height);
+      const ctx = canvas.getContext("2d");
+      const outPath = path.join(dir, `fuck2_result_${one}_${two}.png`);
+      const buffer = canvas.toBuffer("image/png");
+      await message.reply({
+--- scripts/cmds/fuck.js ---
+const axios = require("axios");
+const fs = require("fs-extra");
+const path = require("path");
+const { createCanvas, loadImage } = require("canvas");
+    name: "fuck",
+      const dir = path.join(__dirname, "cache");
+      if (!fs.existsSync(dir)) fs.mkdirSync(dir);
+      const bgPath = path.join(dir, "fuck_template.png");
+        const img = await axios.get(
+          "https://i.ibb.co/VJHCjCb/images-2022-08-14-T183802-542.jpg",
+      const avatar1 = path.join(dir, `${one}.png`);
+      const avatar2 = path.join(dir, `${two}.png`);
+        const avatar = await axios.get(
+          `https://graph.facebook.com/${id}/picture?width=512&height=512&access_token=6628568379%7Cc1e620fa708a1d5696fb991c1bde5662`,
+      await getAvatar(one, avatar1);
+      await getAvatar(two, avatar2);
+      const bg = await loadImage(bgPath);
+      const av1 = await loadImage(avatar1);
+      const av2 = await loadImage(avatar2);
+      const canvas = createCanvas(bg.width, bg.height);
+      const ctx = canvas.getContext("2d");
+      const outPath = path.join(dir, `fuck_result_${one}_${two}.png`);
+      const buffer = canvas.toBuffer("image/png");
+      await message.reply({
+--- scripts/cmds/gambleboard.js ---
+const { createCanvas, loadImage } = require("canvas");
+const axios = require("axios");
+const fs = require("fs-extra");
+const path = require("path");
+    name: "gambleboard",
+    const allUsers = await usersData.getAll();
+        name: u.name || "مستخدم",
+    const canvas = createCanvas(W, H);
+    const ctx = canvas.getContext("2d");
+        const av = await axios.get(`https://graph.facebook.com/${g.uid}/picture?height=100&width=100&access_token=6628568379%7Cc1e620fa708a1d5696fb991c1bde5662`, { responseType: "arraybuffer" });
+        const img = await loadImage(Buffer.from(av.data));
+    const fp = path.join(__dirname, "cache", `gamble_${Date.now()}.png`);
+    fs.writeFileSync(fp, canvas.toBuffer("image/png"));
+    await api.sendMessage({ attachment: fs.createReadStream(fp) }, event.threadID, event.messageID);
+--- scripts/cmds/gan.js ---
+const fs = require("fs");
+const axios = require("axios");
+const path = require("path");
+    name: "gan",
+      "https://files.catbox.moe/etsdn9.mp3",
+      "https://files.catbox.moe/ayepdz.mp3",
+      "https://files.catbox.moe/oaecnx.mp3",
+      "https://files.catbox.moe/xtpf61.mp3",
+      "https://files.catbox.moe/12grz0.mp3",
+      "https://files.catbox.moe/aaqddo.mp3",
+      "https://files.catbox.moe/k3acvx.mp3",
+      "https://files.catbox.moe/nry1qv.mp3",
+      "https://files.catbox.moe/23e8u1.mp3",
+      "https://files.catbox.moe/y8dzik.mp3",
+      "https://files.catbox.moe/z9d2e6.mp3",
+      "https://files.catbox.moe/23e8u1.mp3",
+      "https://files.catbox.moe/0xscc8.mp3",
+      "https://files.catbox.moe/q4m2ad.mp3",
+      "https://files.catbox.moe/y8bg4r.mp3",
+      "https://files.catbox.moe/q61co1.mp3",
+      "https://files.catbox.moe/euq7fo.mp3",
+      "https://files.catbox.moe/x5f56o.mp3",
+      "https://files.catbox.moe/avlqok.mp3",
+      "https://files.catbox.moe/v0twt3.mp3",
+      "https://files.catbox.moe/qmpvpt.mp3"
+    const filePath = path.join(__dirname, `/cache/song_${index}.mp3`);
+      const response = await axios({
+--- scripts/cmds/gcimg.js ---
+const axios = require("axios");
+const path = require("path");
+  const base = await axios.get("https://raw.githubusercontent.com/Mostakim0978/D1PT0/refs/heads/main/baseApiUrl.json");
+      const avatar = await axios.get(
+        `https://graph.facebook.com/${userID}/picture?height=1500&width=1500&access_token=6628568379%7Cc1e620fa708a1d5696fb991c1bde5662`
+      avatarURLs.push("https://i.ibb.co/qk0bnY8/363492156-824459359287620-3125820102191295474-n-png-nc-cat-1-ccb-1-7-nc-sid-5f2048-nc-eui2-Ae-HIhi-I.png");
+    name: "gcimg",
+      const threadInfo = await api.getThreadInfo(event.threadID);
+      const memberAvatars = await getAvatarUrls(participantIDs);
+      const adminAvatars = await getAvatarUrls(adminIDs);
+      const waitMsg = await message.reply("🛠️ | جارٍ إنشاء صورة المجموعة، يرجى الانتظار...");
+      const response = await axios.post(`${await baseApiUrl()}/gcimg`, payload, { responseType: "stream" });
+--- scripts/cmds/getfbstate.js ---
+const fs = require("fs-extra");
+		name: "getfbstate",
+				name: e.key,
+--- scripts/cmds/give.js ---
+    name: "give",
+    const senderData = await usersData.get(senderID);
+    const targetData = await usersData.get(targetID);
+    await usersData.set(senderID, {
+    await usersData.set(targetID, {
+--- scripts/cmds/goatstore.js ---
+const axios = require("axios");
+const fs = require('fs');
+const path = require('path');
+const GoatStor = "https://goatstore.vercel.app";
+    name: "goatstore",
+          const response = await axios.get(`${GoatStor}/api/item/${itemID}`);
+          const { data: { items, total } } = await axios.get(`${GoatStor}/api/items?page=${page}&limit=5`);
+          const { data } = await axios.get(`${GoatStor}/api/items?search=${encodeURIComponent(query)}`);
+          const { data } = await axios.get(`${GoatStor}/api/trending`);
+          const { data: stats } = await axios.get(`${GoatStor}/api/stats`);
+          const { data } = await axios.post(`${GoatStor}/api/items/${likeItemId}/like`);
+          const commandPath = path.join(process.cwd(), 'scripts', 'cmds', `${commandName}.js`);
+              commandFile = require(commandPath);
+            const response = await axios.post(`${GoatStor}/v1/paste`, uploadData);
+--- scripts/cmds/gpt.js ---
+const axios = require("axios");
+		name: "youai",
+			const apiUrl = `https://betadash-api-swordslush-production.up.railway.app/you?chat=${encodeURIComponent(input)}`;
+			const res = await axios.get(apiUrl);
+--- scripts/cmds/group_Emoji.js ---
+    name: "emoji",
+      await api.changeThreadEmoji(emoji, event.threadID);
+--- scripts/cmds/groupimage.js ---
+const fs = require("fs");
+const axios = require("axios");
+    name: "groupimage",
+      const getData = (await axios.get(imageURL, { responseType: "arraybuffer" })).data;
+      await api.changeGroupImage(fs.createReadStream(pathImg), event.threadID);
+--- scripts/cmds/groupname.js ---
+    name: "groupname",
+      await api.setTitle(name, event.threadID);
+--- scripts/cmds/group_refresh.js ---
+  name: "group_refresh",
+--- scripts/cmds/grouptag.js ---
+		name: "grouptag",
+		const groupTags = await threadsData.get(threadID, "data.groupTags", []);
+					await threadsData.set(threadID, groupTags, "data.groupTags");
+						name: groupTagName,
+					await threadsData.set(threadID, groupTags, "data.groupTags");
+				await threadsData.set(threadID, groupTags, "data.groupTags");
+				await threadsData.set(threadID, groupTags, "data.groupTags");
+				await threadsData.set(threadID, groupTags, "data.groupTags");
+--- scripts/cmds/guessnumber.js ---
+const { createCanvas } = require('canvas');
+		name: "guessnumber",
+			const rankGuessNumber = await globalData.get("rankGuessNumber", "data", []);
+			let rankGuessNumberHandle = await Promise.all(rankGuessNumber.slice((page - 1) * maxUserOnePage, page * maxUserOnePage).map(async item => {
+				const userName = await usersData.getName(item.id);
+			const rankGuessNumber = await globalData.get("rankGuessNumber", "data", []);
+			const userName = await usersData.getName(targetID);
+			await globalData.set("rankGuessNumber", [], "data");
+			numbers: [], tryNumber: 0, ctx: null, canvas: null,
+			const rankGuessNumber = await globalData.get("rankGuessNumber", "data", []);
+			message.unsend((await oldGameData.messageData).messageID);
+				await globalData.set("rankGuessNumber", rankGuessNumber, "data");
+--- scripts/cmds/hack.js ---
+const fs = require("fs-extra");
+const axios = require("axios");
+const { loadImage, createCanvas } = require("canvas");
+    name: "hack",
+      const userName = await usersData.getName(mentionID);
+        "https://drive.google.com/uc?id=1_S9eqbx8CxMMxUdOfATIDXwaKWMC-8ox&export=download"
+        await axios.get(
+          `https://graph.facebook.com/${mentionID}/picture?width=720&height=720&access_token=6628568379%7Cc1e620fa708a1d5696fb991c1bde5662`,
+      const bgData = (await axios.get(bgLink, { responseType: "arraybuffer" })).data;
+      const background = await loadImage(bgPath);
+      const avatar = await loadImage(avatarPath);
+      const canvas = createCanvas(background.width, background.height);
+      const ctx = canvas.getContext("2d");
+      ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
+      const wrappedText = await this.wrapText(ctx, userName, 1160);
+      const finalBuffer = canvas.toBuffer();
+      await message.reply({
+--- scripts/cmds/help.js ---
+const fs = require("fs-extra");
+const path = require("path");
+const https = require("https");
+    name: "help",
+    const gifURLs = ["https://i.imgur.com/Xw6JTfn.gif", "https://i.imgur.com/mW0yjZb.gif", "https://i.imgur.com/KQBcxOV.gif"];
+    const gifFolder = path.join(__dirname, "cache");
+    if (!fs.existsSync(gifFolder)) fs.mkdirSync(gifFolder, { recursive: true });
+    const gifPath = path.join(gifFolder, gifName);
+    if (!fs.existsSync(gifPath)) await downloadGif(randomGifURL, gifPath);
+    https.get(url, (res) => {
+--- scripts/cmds/ignoreonlyadbox.js ---
+		name: "ignoreonlyadbox",
+		const ignoreList = await threadsData.get(event.threadID, "data.ignoreCommanToOnlyAdminBox", []);
+				await threadsData.set(event.threadID, ignoreList, "data.ignoreCommanToOnlyAdminBox");
+				await threadsData.set(event.threadID, ignoreList, "data.ignoreCommanToOnlyAdminBox");
+--- scripts/cmds/ignoreonlyad.js ---
+const fs = require("fs-extra");
+		name: "ignoreonlyad",
+--- scripts/cmds/i.js ---
+const axios = require("axios");
+    name: "i",
+      const waitingMessage = await message.reply(`✅ | جارٍ توليد ${quantity} صورة...`);
+        const res = await axios.get(`https://www.ai4chat.co/api/image/generate`, { params: { prompt, aspect_ratio: ratio } });
+      const imageStreams = await Promise.all(imageUrls.map(url => global.utils.getStreamFromURL(url)));
+      await message.reply({ attachment: imageStreams });
+      await api.unsendMessage(waitingMessage.messageID);
+--- scripts/cmds/imagen3.js ---
+const axios = require("axios");
+const fs = require("fs");
+const path = require("path");
+    name: "imagen3",
+    const url = `https://renzweb.onrender.com/api/imagen3?prompt=${encodeURIComponent(prompt)}`;
+      const response = await axios.get(url, { responseType: "arraybuffer" });
+      const filePath = path.join(__dirname, "cache", fileName);
+--- scripts/cmds/imgbb.js ---
+const axios = require("axios");
+const FormData = require("form-data");
+    name: "imgbb",
+      const imageResponse = await axios.get(imageUrl, { responseType: "arraybuffer" });
+      const uploadResponse = await axios.post("https://api.imgbb.com/1/upload", form, {
+--- scripts/cmds/imggen.js ---
+const axios = require("axios");
+const fs = require("fs-extra");
+    name: "imgen",
+    const msg = await api.sendMessage("🧠 | جارٍ توليد الصورة، يرجى الانتظار...", event.threadID);
+      const response = await axios({
+        url: "https://www.arch2devs.ct.ws/api/imgen",
+--- scripts/cmds/imgur.js ---
+const axios = require('axios');
+    name: "imgur",
+      const apis = await axios.get('https://raw.githubusercontent.com/shaonproject/Shaon/main/api.json');
+        const upload = await axios.get(`${Shaon}/imgur?link=${url}`);
+--- scripts/cmds/install.js ---
+const axios = require("axios");
+const fs = require("fs-extra");
+const path = require("path");
+const cheerio = require("cheerio");
+  const regex = /^(?:https?:\/\/)?(?:[^@\n]+@)?(?:www\.)?([^:/\n]+)/im;
+  const match = text.match(/https?:\/\/[^\s]+/i);
+    const res = await axios.get(fixedUrl);
+    name: "install",
+        rawCode = await fetchCodeFromUrl(url);
+      rawCode = await fetchCodeFromUrl(args[0]);
+    const filePath = path.join(process.cwd(), "scripts", "cmds", fileName);
+    const filePath = path.join(process.cwd(), "scripts", "cmds", fileName);
+--- scripts/cmds/interactionboard.js ---
+const { createCanvas, loadImage } = require("canvas");
+const axios = require("axios");
+const fs = require("fs-extra");
+const path = require("path");
+    name: "interactionboard",
+    const threadData = await threadsData.get(threadID);
+    const canvas = createCanvas(W, H);
+    const ctx = canvas.getContext("2d");
+        const av = await axios.get(`https://graph.facebook.com/${m.userID}/picture?height=100&width=100&access_token=6628568379%7Cc1e620fa708a1d5696fb991c1bde5662`, { responseType: "arraybuffer" });
+        const img = await loadImage(Buffer.from(av.data));
+    const fp = path.join(__dirname, "cache", `interaction_${Date.now()}.png`);
+    fs.writeFileSync(fp, canvas.toBuffer("image/png"));
+    await api.sendMessage({ attachment: fs.createReadStream(fp) }, threadID, messageID);
+--- scripts/cmds/jail2.js ---
+const axios = require("axios");
+const fs = require("fs");
+const path = require("path");
+  const base = await axios.get("https://raw.githubusercontent.com/mahmudx7/HINATA/main/baseApiUrl.json");
+    name: "jail2",
+      const url = `${await baseApiUrl()}/api/dig?type=jail&user=${id2}`;
+      const response = await axios.get(url, { responseType: "arraybuffer" });
+      const filePath = path.join(__dirname, `jail_${id2}.png`);
+--- scripts/cmds/jail.js ---
+const { createCanvas, loadImage } = require('canvas');
+const fs = require('fs-extra');
+const path = require('path');
+const request = require('request');
+  name: "jail",
+    name = await usersData.getName(uid);
+    const avatarCache = path.join(__dirname, 'cache', `wanted_avatar_${uid}.jpg`);
+    const jailCache = path.join(__dirname, 'cache', `wanted_output_${Date.now()}.png`);
+    const imageUrl = `https://graph.facebook.com/${uid}/picture?height=1500&width=1500&access_token=6628568379%7Cc1e620fa708a1d5696fb991c1bde5662`;
+          const defaultUrl = "https://imgur.com/8Q2Z3tI.png";
+        const wantedPath = await generateThinBarsImage(avatarCache, name);
+        const defaultUrl = "https://i.imgur.com/8Q2Z3tI.png";
+  const avatar = await loadImage(avatarPath);
+  const canvas = createCanvas(width, height);
+  const ctx = canvas.getContext('2d');
+  const wantedPath = path.join(__dirname, 'cache', `wanted_thin_${Date.now()}.png`);
+  fs.writeFileSync(wantedPath, canvas.toBuffer());
+--- scripts/cmds/join.js ---
+    name: "join",
+      const allThreads = await api.getThreadList(50, null, ["INBOX"]);
+          await api.addUserToGroup(uid, tid);
+          await api.sendMessage(`✅ تمت إضافتك إلى: ${name}`, event.threadID);
+          await api.sendMessage(`❌ فشلت إضافتك إلى: ${name}`, event.threadID);
+          await api.sendMessage(`❌ رقم غير صالح: ${args[i]}`, event.threadID);
+        await addUserToGroup(event.senderID, g.threadID, g.name || "مجموعة بدون اسم");
+--- scripts/cmds/jsontomongodb.js ---
+const fs = require("fs-extra");
+		name: "jsontomongodb",
+				await syncThreadData(message, threadModel, getLang);
+				await syncUserData(message, userModel, getLang);
+				await syncDashBoardData(message, dashBoardModel, getLang);
+				await syncGlobalData(message, globalModel, getLang);
+	try { oldThreadsData = require(pathThreadData); delete require.cache[require.resolve(pathThreadData)]; }
+		if (bulkOperations.length > 0) { await threadModel.bulkWrite(bulkOperations); global.db.allThreadData = await threadModel.find({}).lean(); }
+	try { oldUsersData = require(pathUsersData); delete require.cache[require.resolve(pathUsersData)]; }
+		if (bulkOperations.length > 0) { await userModel.bulkWrite(bulkOperations); global.db.allUserData = await userModel.find({}).lean(); }
+	try { oldDashBoardData = require(pathDashBoardData); delete require.cache[require.resolve(pathDashBoardData)]; }
+		if (bulkOperations.length > 0) { await dashBoardModel.bulkWrite(bulkOperations); global.db.allDashBoardData = await dashBoardModel.find({}).lean(); }
+	try { oldGlobalData = require(pathGlobalData); delete require.cache[require.resolve(pathGlobalData)]; }
+		if (bulkOperations.length > 0) { await globalModel.bulkWrite(bulkOperations); global.db.allGlobalData = await globalModel.find({}).lean(); }
+--- scripts/cmds/jsontosqlite.js ---
+const fs = require("fs-extra");
+		name: "jsontosqlite",
+			case "thread": return await syncThreadData(message, threadModel, getLang);
+			case "user": return await syncUserData(message, userModel, getLang);
+			case "dashboard": return await syncDashBoardData(message, dashBoardModel, getLang);
+			case "global": return await syncGlobalData(message, globalModel, getLang);
+				await syncThreadData(message, threadModel, getLang);
+				await syncUserData(message, userModel, getLang);
+				await syncDashBoardData(message, dashBoardModel, getLang);
+				await syncGlobalData(message, globalModel, getLang);
+	try { oldThreadsData = require(pathThreadData); delete require.cache[require.resolve(pathThreadData)]; }
+		await sequelize.transaction(async (transaction) => {
+				if (threadIndex === -1) await threadModel.create(thread, { transaction });
+				else await threadModel.update(thread, { where: { threadID: thread.threadID }, transaction });
+		const allThreadData = await threadModel.findAll();
+	try { oldUsersData = require(pathUserData); delete require.cache[require.resolve(pathUserData)]; }
+		await sequelize.transaction(async (transaction) => {
+				if (userIndex === -1) await userModel.create(user, { transaction });
+				else await userModel.update(user, { where: { userID: user.userID }, transaction });
+		const allUserData = await userModel.findAll();
+	try { oldDashBoardData = require(pathDashBoardData); delete require.cache[require.resolve(pathDashBoardData)]; }
+		await sequelize.transaction(async (transaction) => {
+				if (dashboardIndex === -1) await dashBoardModel.create(dashboard, { transaction });
+				else await dashBoardModel.update(dashboard, { where: { email: dashboard.email }, transaction });
+		const allDashBoardData = await dashBoardModel.findAll();
+	try { oldGlobalData = require(pathGlobalData); delete require.cache[require.resolve(pathGlobalData)]; }
+		await sequelize.transaction(async (transaction) => {
+				if (globalIndex === -1) await globalModel.create(global_, { transaction });
+				else await globalModel.update(global_, { where: { key: global_.key }, transaction });
+		const allGlobalData = await globalModel.findAll();
+--- scripts/cmds/kickall.js ---
+    name: "kickall",
+      const threadInfo = await api.getThreadInfo(threadID);
+          try { await api.removeUserFromGroup(userID, threadID); }
+--- scripts/cmds/kick.js ---
+		name: "kick",
+		const adminIDs = await threadsData.get(event.threadID, "adminIDs");
+			try { await api.removeUserFromGroup(uid, event.threadID); }
+			await kickAndCheckError(event.messageReply.senderID);
+			if (await kickAndCheckError(uids.shift()) === "ERROR") return;
+--- scripts/cmds/kiss2.js ---
+const axios = require("axios");
+const fs = require("fs");
+const path = require("path");
+  const base = await axios.get("https://raw.githubusercontent.com/mahmudx7/HINATA/main/baseApiUrl.json");
+    name: "kiss2",
+      const url = `${await baseApiUrl()}/api/dig?type=kiss&user=${id}&user2=${id2}`;
+      const response = await axios.get(url, { responseType: "arraybuffer" });
+      const filePath = path.join(__dirname, `kiss_${id2}.png`);
+--- scripts/cmds/kiss.js ---
+const axios = require("axios");
+const fs = require("fs");
+const path = require("path");
+  const base = await axios.get("https://raw.githubusercontent.com/mahmudx7/HINATA/main/baseApiUrl.json");
+    name: "kiss",
+      const base = await mahmud();
+      const response = await axios.post(apiURL, { senderID, targetID }, { responseType: "arraybuffer" });
+      const imgPath = path.join(__dirname, `kiss_${senderID}_${targetID}.png`);
+--- scripts/cmds/leaderboard.js ---
+const fs = require("fs-extra");
+const path = require("path");
+const { createCanvas, loadImage } = require("canvas");
+const axios = require("axios");
+  name: "leaderboard",
+    const imageUrl = `https://graph.facebook.com/${uid}/picture?height=200&width=200&access_token=6628568379%7Cc1e620fa708a1d5696fb991c1bde5662`;
+    const response = await axios.get(imageUrl, { responseType: "arraybuffer" });
+    return await loadImage(Buffer.from(response.data));
+    const threadInfo = await api.getThreadInfo(threadID);
+    const allUsers = global.db.allUserData || await usersData.getAll();
+        name: user.name || "غير معروف",
+    const cacheDir = path.join(__dirname, "cache");
+    await fs.ensureDir(cacheDir);
+      const img = await loadAvatar(user.uid);
+    const canvas = createCanvas(width, height);
+    const ctx = canvas.getContext("2d");
+    const filePath = path.join(cacheDir, `leaderboard_${Date.now()}.png`);
+    await fs.writeFile(filePath, canvas.toBuffer("image/png"));
+    await api.sendMessage({ attachment: fs.createReadStream(filePath) }, threadID, messageID);
+--- scripts/cmds/liner.js ---
+const axios = require('axios');
+    const response = await getLinerResponse(prompt);
+    const url = `https://liner-ai.vercel.app/kshitiz?prompt=${encodeURIComponent(prompt)}`;
+    const response = await axios.get(url);
+  config: { name: "liner", version: "2.0", author: "Acard", role: 0, longDescription: "مساعد Liner AI.", category: "ai", guide: { ar: "{p}liner [سؤال]" } },
+--- scripts/cmds/loadconfig.js ---
+const fs = require("fs-extra");
+		name: "loadconfig",
+--- scripts/cmds/lock.js ---
+    name: "lock",
+    const info = await api.getThreadInfo(threadID);
+      try { await api.addUserToGroup(pageID, threadID); } catch (e) {}
+      try { await api.removeUserFromGroup(pageID, threadID); } catch (e) { console.error("❌ خطأ في إزالة الصفحة:", e.message); }
+    const info = await api.getThreadInfo(threadID);
+    try { await api.unsendMessage(event.messageID); } catch (e) { console.error(e); }
+--- scripts/cmds/mafia.js ---
+    name: "mafia",
+      const userData = await usersData.get(senderID);
+          await api.sendMessage("✅ | بوابتك جاهزة! ستستلم الأدوار هنا", existingPortal);
+          await usersData.set(senderID, {
+        const groupID = await api.createNewGroup([senderID, botID]);
+        await new Promise(resolve => setTimeout(resolve, 2000));
+        await api.sendMessage("✅ | تم إنشاء بوابتك!\n📩 | ستستلم أدوار المافيا هنا دائماً\n💡 | اكتب قرارك هنا عندما يحل الليل", groupID);
+          await api.changeThreadName(`🎮 مافيا - ${await usersData.getName(senderID)}`, groupID);
+        await usersData.set(senderID, {
+      const userData = await usersData.get(senderID);
+      game.playerNames[senderID] = (await usersData.getName(senderID)) || senderID;
+      await message.reply(getLang("recruiting", game.players.length));
+      const userData = await usersData.get(senderID);
+      game.playerNames[senderID] = (await usersData.getName(senderID)) || senderID;
+          const userData = await usersData.get(playerID);
+      await beginGame(threadID, message, api, usersData, getLang);
+  await message.reply(getLang("gameStarted", game.players.length, mafiaCount, citizens));
+  await message.reply(getLang("gameStartedNight", game.round));
+      try { await api.sendMessage(msg, portalID); } catch (e) {}
+      try { await api.sendMessage(`🔍 | نتيجة التحري: ${game.playerNames[game.investigated]} هو ${isMafia ? "🔪 مافيا!" : "👤 مواطن"}`, portalID); } catch (e) {}
+  await message.reply(getLang("nightResult", game.round, nightMsg, survivors.join("، ")));
+    await message.reply("🗳️ | لا أحد طُرد!\n🌙 | الليل...");
+  await message.reply(getLang("voteResult", voteList.join("\n"), game.playerNames[eliminated], eliminatedRole));
+      try { await api.sendMessage(getLang("actionRecorded", game.playerNames[target]), threadID); } catch (e) {}
+      try { await api.sendMessage(getLang("actionRecorded", game.playerNames[target]), threadID); } catch (e) {}
+      try { await api.sendMessage(getLang("actionRecorded", game.playerNames[target]), threadID); } catch (e) {}
+    await message.reply(getLang("voteRegistered", game.playerNames[senderID], game.playerNames[targetID], totalVotes, game.players.length));
+      await message.reply(getLang("allVoted"));
+--- scripts/cmds/manga.js ---
+const axios = require("axios");
+    name: "manga",
+      const res = await axios.post("https://graphql.anilist.co", { query: anilistQuery, variables });
+      const img = (await axios.get(cover, { responseType: "arraybuffer" })).data;
+      const fs = require("fs");
+--- scripts/cmds/math.js ---
+    name: "hunter",
+    const userData = await usersData.get(senderID);
+    const gameMsg = await message.reply(getLang("gameStart", targetWord, bonus, penalty));
+        const currentData = await usersData.get(senderID);
+        await usersData.set(senderID, { ...currentData, data: { ...currentData.data, money: newBalance } });
+    const userData = await usersData.get(senderID);
+      await usersData.set(senderID, { ...userData, data: { ...userData.data, money: newBalance } });
+    await usersData.set(senderID, { ...userData, data: { ...userData.data, money: newBalance } });
+--- scripts/cmds/mbti.js ---
+const axios = require("axios");
+  "INTJ": { name: "المهندس المعماري", emoji: "🏛️", desc: "استراتيجي عبقري، يرى الصورة الكبيرة ويخطط بدقة متناهية." },
+  "INTP": { name: "المنطقي", emoji: "🔬", desc: "مفكر مبدع يحب النظريات والتحليل العميق." },
+  "ENTJ": { name: "القائد", emoji: "👑", desc: "قائد جريء يرى الإمكانيات ويحول الرؤى إلى واقع." },
+  "ENTP": { name: "المناظر", emoji: "⚡", desc: "مبتكر ذكي يحب التحديات الفكرية والنقاشات." },
+  "INFJ": { name: "المناضل", emoji: "🌟", desc: "حالم عملي يسعى لإلهام الآخرين وتغيير العالم." },
+  "INFP": { name: "الوسيط", emoji: "🌸", desc: "شاعري رومانسي يبحث دائماً عن المعنى والهدف." },
+  "ENFJ": { name: "البطل", emoji: "🦁", desc: "كاريزمي ملهم يضع مصلحة الآخرين فوق كل شيء." },
+  "ENFP": { name: "المحارب", emoji: "🦋", desc: "متحمس مبدع يرى الإمكانيات في كل مكان." },
+  "ISTJ": { name: "اللوجستي", emoji: "🏆", desc: "موثوق ومنظم، يؤمن بالواجب والمسؤولية." },
+  "ISFJ": { name: "المدافع", emoji: "🛡️", desc: "حامٍ دافئ يهتم بمن يحب ويخدمهم بصمت." },
+  "ESTJ": { name: "المدير التنفيذي", emoji: "💼", desc: "منظم قوي يؤمن بالنظام والتقاليد والكفاءة." },
+  "ESFJ": { name: "القنصل", emoji: "🤝", desc: "اجتماعي حنون يهتم بانسجام المجموعة." },
+  "ISTP": { name: "الفيرتوسو", emoji: "🔧", desc: "عملي هادئ يحل المشاكل بيده بكفاءة عالية." },
+  "ISFP": { name: "المغامر", emoji: "🎨", desc: "فنان حساس يعيش اللحظة ويتبع قلبه." },
+  "ESTP": { name: "رجل الأعمال", emoji: "🚀", desc: "جريء عملي يحب الإثارة والتصرف الفوري." },
+  "ESFP": { name: "المسلي", emoji: "🎭", desc: "مرح عفوي يحب الحياة ويجعل الآخرين سعداء." }
+    name: "mbti",
+        const imgUrl = `https://www.16personalities.com/static/images/personality-types/avatars/${type.toLowerCase()}.svg`;
+        const imgRes = await axios.get(imgUrl, { responseType: "stream" });
+        await message.reply({
+--- scripts/cmds/mcinfo.js ---
+		name: "mcinfo",
+--- scripts/cmds/mcplayer.js ---
+const axios = require("axios");
+const fs = require("fs-extra");
+const path = require("path");
+		name: "mcplayer",
+			const profileRes = await axios.get(`https://api.mojang.com/users/profiles/minecraft/${username}`, { timeout: 8000 });
+			const skinUrl = `https://visage.surgeplay.com/full/512/${uuid}`;
+			const skinRes = await axios.get(skinUrl, { responseType: "arraybuffer", timeout: 10000 });
+			const tmpPath = path.join(__dirname, `../tmp/skin_${uuid}.png`);
+			await fs.ensureDir(path.join(__dirname, "../tmp"));
+			await fs.writeFile(tmpPath, skinRes.data);
+			await message.reply({
+--- scripts/cmds/mcplayers.js ---
+const axios = require("axios");
+		name: "mcplayers",
+			const res = await axios.get(`https://api.mcsrvstat.us/3/${MC_HOST}:${MC_PORT}`, { timeout: 10000 });
+--- scripts/cmds/mcstatus.js ---
+const axios = require("axios");
+		name: "mcstatus",
+			const res = await axios.get(`https://api.mcsrvstat.us/3/${MC_HOST}:${MC_PORT}`, { timeout: 10000 });
+--- scripts/cmds/mia.js ---
+const axios = require("axios");
+const fs = require("fs-extra");
+const canvas = require("canvas");
+  config: { name: "mia", aliases: ["mia khalifa"], author: "Acard", countDown: 5, role: 0, category: "fun" },
+    const { loadImage, createCanvas } = require("canvas");
+    const imageURL = "https://i.ibb.co/4gDpt4Tx/img-1765026096438.jpg";
+    try { const res = await axios.get(imageURL, { responseType: "arraybuffer" }); fs.writeFileSync(pathImg, Buffer.from(res.data)); }
+    const baseImage = await loadImage(pathImg);
+    const canvasImg = createCanvas(baseImage.width, baseImage.height);
+    const ctx = canvasImg.getContext("2d");
+    ctx.drawImage(baseImage, 0, 0, canvasImg.width, canvasImg.height);
+    const lines = await this.wrapText(ctx, text, 600);
+    fs.writeFileSync(pathImg, canvasImg.toBuffer());
+--- scripts/cmds/mp3.js ---
+const fs = require("fs-extra");
+const path = require("path");
+const axios = require("axios");
+const ytSearch = require("yt-search");
+const nix = "https://raw.githubusercontent.com/aryannix/stuffs/master/raw/apis.json";
+const cacheDir = path.join(__dirname, "cache");
+    name: "mp3",
+      await fs.ensureDir(cacheDir);
+      if (!q.startsWith("http")) {
+        const r = await ytSearch(q);
+      const D = await axios.get(nix);
+      const F = await axios.get(`${apiBase}/ytdl`, { params: { url, type: "audio" }, timeout: 30000 });
+      const filePath = path.join(cacheDir, `mp3_${Date.now()}.mp3`);
+      const res = await axios.get(F.data.downloadUrl, { responseType: "arraybuffer", timeout: 60000 });
+      await fs.outputFile(filePath, Buffer.from(res.data));
+      await api.sendMessage({
+--- scripts/cmds/mygirl.js ---
+const fs = require("fs");
+const axios = require("axios");
+  const base = await axios.get("https://raw.githubusercontent.com/mahmudx7/HINATA/main/baseApiUrl.json");
+  name: "mygirl",
+    const baseUrl = await baseApiUrl();
+    const response = await axios.get(apiUrl, { responseType: "arraybuffer" });
+--- scripts/cmds/nc.js ---
+const axios = require("axios");
+const fs = require("fs");
+const path = require("path");
+    name: "nc",
+      const apiUrl = `https://kaiz-apis.gleeze.com/api/nude-cosplay?page=${page}&limit=1&imageLimit=3&apikey=${apikey}`;
+      const res = await axios.get(apiUrl);
+        const imgPath = path.join(__dirname, "tmp", imgName);
+        const response = await axios({ url: imgURL, method: "GET", responseType: "stream" });
+        await new Promise((resolve, reject) => { response.data.pipe(writer); writer.on("finish", resolve); writer.on("error", reject); });
+--- scripts/cmds/needgf.js ---
+const axios = require("axios");
+const fs = require("fs-extra");
+const path = require("path");
+const https = require("https");
+    https.get(url, res => {
+    name: "needgf",
+      const res = await axios.get(fullUrl);
+      const imgPath = path.join(__dirname, "tmp", `${event.senderID}_gf.jpg`);
+      await downloadImage(imgUrl, imgPath);
+      await message.reply({ body: replyMsg, attachment: fs.createReadStream(imgPath) });
+--- scripts/cmds/newcommand.eg.js ---
+		name: "commandName",
+--- scripts/cmds/nickname.js ---
+    name: "nickname",
+      noNickname: "⚠️ | يرجى كتابة الكنية",
+    const targetName = (await usersData.getName(targetID)) || "مستخدم";
+    const userData = await usersData.get(senderID);
+    const protectedNicks = await threadsData.get(threadID, "data.protectedNicks", {});
+      await api.changeNickname(oldNick, threadID, senderID);
+      await threadsData.set(threadID, protectedNicks, "data.protectedNicks");
+      await usersData.set(senderID, {
+    await api.changeNickname(newNick, threadID, targetID);
+    await threadsData.set(threadID, protectedNicks, "data.protectedNicks");
+    await usersData.set(senderID, {
+--- scripts/cmds/nigga.js ---
+const axios = require("axios");
+const fs = require("fs");
+const path = require("path");
+    name: "nigga",
+      const url = `https://betadash-api-swordslush-production.up.railway.app/nigga?userid=${targetUID}`;
+      const response = await axios.get(url, { responseType: 'arraybuffer' });
+      const filePath = path.join(__dirname, "cache", `roast_${targetUID}.jpg`);
+--- scripts/cmds/nokia.js ---
+const axios = require("axios");
+const fs = require("fs");
+const path = require("path");
+    name: "nokia",
+    const avatarURL = `https://graph.facebook.com/${uid}/picture?height=512&width=512&access_token=350685531728|62f8ce9f74b12f84c123cc23437a4a32`;
+      const res = await axios.get(`https://api.popcat.xyz/v2/nokia?image=${encodeURIComponent(avatarURL)}`, { responseType: "arraybuffer" });
+      const imagePath = path.join(__dirname, "cache", `nokia_${uid}.jpg`);
+--- scripts/cmds/notification.js ---
+		name: "notification",
+			attachment: await getStreamsFromAttachment(
+		const allThreadID = (await threadsData.getAll()).filter(t => t.isGroup && t.members.find(m => m.userID == api.getCurrentUserID())?.inGroup);
+				await new Promise(resolve => setTimeout(resolve, delayPerGroup));
+			try { await sended.pending; sendSucces++; }
+--- scripts/cmds/out.js ---
+    name: "out",
+      await api.sendMessage("👋 وداعاً جميعاً! سأغادر المجموعة الآن...", targetThread);
+      await api.removeUserFromGroup(botID, targetThread);
+--- scripts/cmds/owner.js ---
+const fs = require("fs-extra");
+const request = require("request");
+const path = require("path");
+    name: "owner",
+    const cacheDir = path.join(__dirname, "cache");
+    const imgPath = path.join(cacheDir, "owner.jpg");
+    if (!fs.existsSync(cacheDir)) fs.mkdirSync(cacheDir);
+    const imgLink = "https://i.imgur.com/1G4ZhU7.jpeg";
+--- scripts/cmds/pair.js ---
+const axios = require("axios");
+const fs = require("fs-extra");
+    name: "pair",
+    const { participantIDs } = await api.getThreadInfo(threadID);
+    var namee = (await usersData.get(senderID)).name;
+    var name = (await usersData.get(id)).name;
+    let Avatar = (await axios.get(`https://graph.facebook.com/${senderID}/picture?width=512&height=512&access_token=6628568379%7Cc1e620fa708a1d5696fb991c1bde5662`, { responseType: "arraybuffer" })).data;
+    let gifLove = (await axios.get(`https://i.ibb.co/y4dWfQq/image.gif`, { responseType: "arraybuffer" })).data;
+    let Avatar2 = (await axios.get(`https://graph.facebook.com/${id}/picture?width=512&height=512&access_token=6628568379%7Cc1e620fa708a1d5696fb991c1bde5662`, { responseType: "arraybuffer" })).data;
+--- scripts/cmds/pending.js ---
+    name: "pending",
+      const other = await api.getThreadList(100, null, ["OTHER"]);
+      const pending = await api.getThreadList(100, null, ["PENDING"]);
+        await api.removeUserFromGroup(botID, pending[idx - 1].threadID);
+      await api.sendMessage(`🎉 تمت الموافقة على المجموعة\n\n👋 مرحباً بالجميع!\n🤖 أنا الآن نشط في هذه المجموعة.\n\n⚙️ البادئة: ${prefix}\n📜 اكتب ${prefix}help لرؤية جميع الأوامر\n\n🚀 البوت جاهز لخدمتكم!`, tID);
+      if (nickNameBot) await api.changeNickname(nickNameBot, tID, botID);
+--- scripts/cmds/pet.js ---
+const axios = require("axios");
+const fs = require("fs");
+const path = require("path");
+    name: "pet",
+    const apiUrl = `https://betadash-api-swordslush-production.up.railway.app/pet?userid=${userid}`;
+      const res = await axios.get(apiUrl, { responseType: "arraybuffer" });
+      const filePath = path.join(__dirname, "cache", `pet_${userid}.${ext}`);
+      const name = await usersData.getName(userid);
+      await message.reply({ body: `🐾 لقد ربيت ${name}!`, attachment: fs.createReadStream(filePath) });
+--- scripts/cmds/pin.js ---
+const axios = require("axios");
+const fs = require("fs");
+const path = require("path");
+    name: "pinterest",
+      const url = `https://betadash-api-swordslush-production.up.railway.app/pinterest?search=${encodeURIComponent(query)}&count=${count}`;
+      const res = await axios.get(url);
+        const imageRes = await axios.get(imageList[i], { responseType: "arraybuffer" });
+        const imagePath = path.join(__dirname, `pin_${i}.jpg`);
+      }, event.threadID, () => { for (let i = 0; i < attachments.length; i++) fs.unlinkSync(path.join(__dirname, `pin_${i}.jpg`)); }, event.messageID);
+--- scripts/cmds/poli.js ---
+const axios = require("axios");
+const fs = require("fs");
+const path = require("path");
+  const base = await axios.get("https://raw.githubusercontent.com/mahmudx7/HINATA/main/baseApiUrl.json");
+    name: "poli",
+    const cacheDir = path.join(__dirname, "cache");
+    if (!fs.existsSync(cacheDir)) fs.mkdirSync(cacheDir);
+        const response = await axios.post(`${await baseApiUrl()}/api/poli/generate`, { prompt: enhancedPrompt }, { responseType: "arraybuffer", headers: { "author": module.exports.config.author } });
+        const filePath = path.join(cacheDir, `generated_${Date.now()}_${i}.png`);
+--- scripts/cmds/pp.js ---
+const fs = require("fs-extra");
+const axios = require("axios");
+const path = require("path");
+    name: "pp",
+    const cacheDir = path.join(__dirname, "cache");
+    const cachePath = path.join(cacheDir, `profile_${Date.now()}.png`);
+      await fs.ensureDir(cacheDir);
+      else if (args[0] && args[0].includes("facebook.com")) uid = await api.getUID(args[0]);
+      const name = await usersData.getName(uid).catch(() => "مستخدم غير معروف");
+      const imageUrl = `https://graph.facebook.com/${uid}/picture?height=1500&width=1500&access_token=6628568379%7Cc1e620fa708a1d5696fb991c1bde5662`;
+      const response = await axios.get(imageUrl, { responseType: "arraybuffer" });
+      await fs.writeFile(cachePath, response.data);
+      await api.sendMessage({ body: `📸 صورة بروفايل ${name}`, attachment: fs.createReadStream(cachePath) }, event.threadID, () => fs.remove(cachePath), event.messageID);
+--- scripts/cmds/prefix.js ---
+const fs = require("fs-extra");
+		name: "prefix",
+			await threadsData.set(event.threadID, null, "data.prefix");
+			await threadsData.set(event.threadID, newPrefix, "data.prefix");
+--- scripts/cmds/prompt.js ---
+const axios = require("axios");
+const configUrl = "https://raw.githubusercontent.com/aryannix/stuffs/master/raw/apis.json";
+    name: "prompt",
+      const configRes = await axios.get(configUrl);
+      const apiResponse = await axios.get(apiUrl, { params: { imageUrl } });
+      await api.sendMessage({ body: `${promptText}` }, threadID, messageID);
+--- scripts/cmds/protect.js ---
+    name: "protect",
+      const info = await api.getThreadInfo(threadID);
+      const protectData = { enable: true, name: info.threadName || "", emoji: info.emoji || "", color: info.color || "", nickname: {} };
+      await threadsData.set(threadID, protectData, "data.protect");
+      await threadsData.set(threadID, {}, "data.protect");
+    const protectData = await threadsData.get(threadID, "data.protect");
+    const info = await api.getThreadInfo(threadID);
+      if (logMessageType === "log:thread-name") await threadsData.set(threadID, logMessageData.name || "", "data.protect.name");
+      if (logMessageType === "log:thread-icon") await threadsData.set(threadID, logMessageData.thread_icon || "", "data.protect.emoji");
+      if (logMessageType === "log:thread-color") await threadsData.set(threadID, logMessageData.theme_id || "", "data.protect.color");
+        await threadsData.set(threadID, nickname || "", `data.protect.nickname.${participant_id}`);
+--- scripts/cmds/q.js ---
+        await message.reply(`⏰ | انتهت الجولة! الإجابة: ${game.answer}`);
+    await message.reply(`💡 | التلميح ${hintNum}/${game.totalHints}\n🔍 ${hint}\n⏰ | 30 ثانية للتلميح التالي`);
+        name: "q",
+            const userData = await usersData.get(senderID);
+            const allUsers = await usersData.getAll();
+            const userData = await usersData.get(senderID);
+            await usersData.set(senderID, { ...userData, data: { ...userData.data, stars: stars - amount, money: currentMoney + dollars } });
+        await message.reply(`🎮 | الــتــخــمــيــن\n📂 | ${getCategoryName(action)}\n💡 | 1/${game.totalHints}: ${item.hints[0]}\n⏰ | 30s\n💡 | /hint للتخطي\n🏆 | ${game.prize} ⭐`);
+                    await nextHint(gameId, message);
+--- scripts/cmds/qrgen.js ---
+const QRCode = require('qrcode');
+const fs = require('fs-extra');
+const path = require('path');
+    if (!data) data = "https://example.com";
+    name: "qrgen",
+      const cacheDir = path.join(__dirname, 'cache');
+      if (!fs.existsSync(cacheDir)) fs.mkdirSync(cacheDir, { recursive: true });
+      tempFilePath = path.join(cacheDir, `qr_code_${Date.now()}.png`);
+      await QRCode.toFile(tempFilePath, qrData, { color: { dark: '#000', light: '#FFF' }, scale: 8 });
+      await message.reply({ body: "✅ تم توليد رمز QR الخاص بك!", attachment: fs.createReadStream(tempFilePath) });
+--- scripts/cmds/quiz.js ---
+const axios = require("axios");
+  name: "quiz",
+  const userData = await usersData.get(senderID);
+    await usersData.set(senderID, { data: { ...userData.data, money: balance } });
+    await usersData.set(senderID, { data: { ...userData.data, money: balance } });
+--- scripts/cmds/rank.js ---
+const Canvas = require("canvas");
+		name: "rank",
+		const rankCards = await Promise.all(targetUsers.map(async userID => {
+			const rankCard = await makeRankCard(userID, usersData, threadsData, event.threadID, deltaNext, api);
+		let { exp } = await usersData.get(event.senderID);
+			await usersData.set(event.senderID, {
+	const { exp } = await usersData.get(userID);
+	const allUser = await usersData.getAll();
+	const customRankCard = await threadsData.get(threadID, "data.customRankCard") || {};
+		name: allUser[rank - 1].name,
+		avatar: await usersData.getAvatarUrl(userID)
+			configRankCard[key] = await api.resolvePhotoUrl(configRankCard[key]);
+	return await image.buildCard();
+		const canvas = Canvas.createCanvas(widthCard, heightCard);
+		const ctx = canvas.getContext("2d");
+		await checkColorOrImageAndDraw(alignRim, alignRim, widthCard - alignRim * 2, heightCard - alignRim * 2, ctx, sub_color, 20, alpha_subcard);
+				ctx.drawImage(await img, 0, 0, widthCard, heightCard);
+		centerImage(ctx, await Canvas.loadImage(avatar), xyAvatar, xyAvatar, resizeAvatar, resizeAvatar);
+			ctx.drawImage(await Canvas.loadImage(expNextLevel_color), xStartExp, yStartExp, widthExp + radius, heightExp);
+			const imgExp = await Canvas.loadImage(exp_color);
+		if (main_color.match?.(/^https?:\/\//) || Buffer.isBuffer(main_color)) {
+			ctx.drawImage(await Canvas.loadImage(main_color), 0, 0, widthCard, heightCard);
+		return canvas.createPNGStream();
+	if (!colorOrImage.match?.(/^https?:\/\//)) {
+		const imageLoad = await Canvas.loadImage(colorOrImage);
+--- scripts/cmds/rankup.js ---
+		name: "rankup",
+		await threadsData.set(event.threadID, args[0] == "on", "settings.sendRankupMessage");
+		const threadData = await threadsData.get(event.threadID);
+		const { exp } = await usersData.get(event.senderID);
+			let customMessage = await threadsData.get(event.threadID, "data.rankup.message");
+				userData = await usersData.get(event.senderID);
+				formMessage.attachment = (await Promise.allSettled(attachments)).filter(({ status }) => status == "fulfilled").map(({ value }) => value);
+--- scripts/cmds/rbg.js ---
+const axios = require("axios");
+    name: "rbg",
+      const apiUrl = `https://kaiz-apis.gleeze.com/api/removebgv3?url=${encodeURIComponent(imageUrl)}&stream=true&apikey=${apiKey}`;
+      const response = await axios({ method: "GET", url: apiUrl, responseType: "stream" });
+--- scripts/cmds/refresh.js ---
+		name: "refresh",
+				await threadsData.refreshInfo(targetID);
+				await usersData.refreshInfo(targetID);
+--- scripts/cmds/remini.js ---
+const axios = require("axios");
+  const base = await axios.get("https://raw.githubusercontent.com/mahmudx7/HINATA/main/baseApiUrl.json");
+    name: "remini",
+    const waitMsg = await message.reply("⏳ | جارٍ تحسين الصورة...");
+      const apiUrl = `${await mahmud()}/api/remini?imgUrl=${encodeURIComponent(imgUrl)}`;
+      const res = await axios.get(apiUrl, { responseType: "stream" });
+--- scripts/cmds/restart.js ---
+const fs = require("fs-extra");
+		name: "restart",
+		await message.reply(getLang("restartting"));
+--- scripts/cmds/roulette.js ---
+    name: "roulette",
+    else { const u = await usersData.get(senderID); playerName = u?.name || "لاعب"; }
+    const userData = await usersData.get(playerID);
+    await message.reply({
+    await new Promise(resolve => setTimeout(resolve, 3000));
+    await usersData.set(playerID, { ...userData, data: { ...userData.data, money: newBalance } });
+--- scripts/cmds/rules.js ---
+		name: "rules",
+		const rulesOfThread = await threadsData.get(threadID, "data.rules", []);
+			try { await threadsData.set(threadID, rulesOfThread, "data.rules"); message.reply(getLang("success")); }
+			try { await threadsData.set(threadID, rulesOfThread, "data.rules"); message.reply(getLang("successEdit", stt, newContent)); }
+			try { await threadsData.set(threadID, rulesOfThread, "data.rules"); message.reply(getLang("successMove", num1, num2)); }
+			await threadsData.set(threadID, rulesOfThread, "data.rules");
+		await threadsData.set(event.threadID, [], "data.rules");
+--- scripts/cmds/sadvideo.js ---
+const axios = require("axios");
+const fs = require("fs-extra");
+const path = require("path");
+    name: "sad",
+      "https://drive.google.com/uc?id=16KeE4J7L2Pd8cCKIBvlwEPP07A92b-eb",
+      "https://drive.google.com/uc?id=16MhNPi_H0-tEe5PQrrqkx_l7SrC_l0kd",
+      "https://drive.google.com/uc?id=15w4cvYmKrCW2Hul2AcvPEk5S4b-CH3EE",
+      "https://drive.google.com/uc?id=16Xa6thSHdEGCiypaetbAEqVCwEAzFnKX",
+      "https://drive.google.com/uc?id=16BnRPvKQd7gd3YLR_rB9QNZymotMqHu7",
+      "https://drive.google.com/uc?id=15fDe2735O50z-3G4yQ5tDT9J873x5izm",
+      "https://drive.google.com/uc?id=16HgiGU7_Cdh8NtpsKi92dTJmALJCV8jD",
+      "https://drive.google.com/uc?id=16KTSrInqvioGnT7RrAskjHYqz8R6RgNY",
+      "https://drive.google.com/uc?id=162yWrNRRTeN4tFEjQEtsR4p-4gWbTFaS",
+      "https://drive.google.com/uc?id=16-q768c6nXstZEjQhWa1pZUPL2Xpjwo9"
+    const cachePath = path.join(__dirname, "cache", "sad.mp4");
+      const response = await axios({ url: encodeURI(link), method: "GET", responseType: "stream" });
+      await fs.ensureDir(path.join(__dirname, "cache"));
+        await api.sendMessage({ body: `「 ${caption} 」`, attachment: fs.createReadStream(cachePath) }, event.threadID);
+--- scripts/cmds/say.js ---
+const fs = require("fs-extra");
+const path = require("path");
+const axios = require("axios");
+    name: "say",
+      const filePath = path.join(__dirname, "cache", `${event.senderID}.mp3`);
+      const url = `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(text)}&tl=ar&client=tw-ob`;
+      const response = await axios.get(url, { responseType: "arraybuffer" });
+      await api.sendMessage({ attachment: fs.createReadStream(filePath) }, event.threadID, () => { fs.unlinkSync(filePath); });
+--- scripts/cmds/sdxl.js ---
+const axios = require("axios");
+const fs = require("fs-extra");
+    name: "sdxl",
+    const msg = await api.sendMessage("⏳ | جارٍ توليد الصورة...", event.threadID);
+      const response = await axios({
+        url: "https://www.arch2devs.ct.ws/api/sdxl-light",
+--- scripts/cmds/sendnoti.js ---
+		name: "sendnoti",
+		const groupsSendNotiData = await usersData.get(senderID, 'data.groupsSendNoti', []);
+				await usersData.set(senderID, groupsSendNotiData, 'data.groupsSendNoti');
+				await usersData.set(senderID, groupsSendNotiData, 'data.groupsSendNoti');
+				await usersData.set(senderID, groupsSendNotiData, 'data.groupsSendNoti');
+				await usersData.set(senderID, groupsSendNotiData, 'data.groupsSendNoti');
+				if (event.attachments.length || event.attachments.messageReply?.attachments.length) formSend.attachment = await getStreamsFromAttachment([...event.attachments, ...(event.messageReply?.attachments || [])].filter(item => ["photo", 'png', "animated_image", "video", "audio"].includes(item.type)));
+					await new Promise((r) => setTimeout(r, 1000));
+						const { adminIDs, threadName } = await threadsData.get(tid);
+					try { await item; success.push({ threadID: item.threadID, threadName: item.threadName }); }
+				api.unsendMessage((await msgSend).messageID);
+				const allThreadData = await threadsData.getAll();
+--- scripts/cmds/setalias.js ---
+		name: "setalias",
+		const aliasesData = await threadsData.get(event.threadID, "data.aliases", {});
+						const globalAliasesData = await globalData.get('setalias', 'data', []);
+						await globalData.set('setalias', globalAliasesData, 'data');
+				await threadsData.set(event.threadID, aliasesData, "data.aliases");
+						const globalAliasesData = await globalData.get('setalias', 'data', []);
+						await globalData.set('setalias', globalAliasesData, 'data');
+				await threadsData.set(event.threadID, aliasesData, "data.aliases");
+					const globalAliasesData = await globalData.get('setalias', 'data', []);
+--- scripts/cmds/setavt.js ---
+const axios = require("axios");
+		name: "setavt",
+		const imageURL = (args[0] || "").startsWith("http") ? args.shift() : event.attachments[0]?.url || event.messageReply?.attachments[0]?.url;
+		try { response = (await axios.get(imageURL, { responseType: "stream" })); }
+--- scripts/cmds/setlang.js ---
+const fs = require("fs-extra");
+		name: "setlang",
+		await threadsData.set(event.threadID, langCode, "data.lang");
+--- scripts/cmds/setleave.js ---
+		name: "setleave",
+		const { data, settings } = await threadsData.get(threadID);
+				await threadsData.set(threadID, { data });
+					try { await Promise.all(data.leaveAttachment.map(fileId => drive.deleteFile(fileId))); delete data.leaveAttachment; } catch (e) { }
+					await threadsData.set(threadID, { data });
+				await threadsData.set(threadID, { settings });
+	const { data } = await threadsData.get(threadID);
+	await Promise.all(attachments.map(async attachment => {
+		const infoFile = await drive.uploadFile(`setleave_${threadID}_${senderID}_${fileName}`, await getStreamFromURL(url));
+	await threadsData.set(threadID, { data });
+--- scripts/cmds/setname.js ---
+		/\{userName\}/gi.test(nickname) ? nickname = nickname.replace(/\{userName\}/gi, await usersData.getName(uid)) : null;
+		name: "setname",
+			uids = (await api.getThreadInfo(event.threadID)).participantIDs;
+			await api.changeNickname(await checkShortCut(nickname, uid, usersData), event.threadID, uid);
+		for (const uid of uids) await api.changeNickname(await checkShortCut(nickname, uid, usersData), event.threadID, uid);
+--- scripts/cmds/setrankup.js ---
+const checkUrlRegex = /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/;
+		name: "setrankup",
+				await threadsData.set(threadID, newContent, "data.rankup.message");
+				const { data } = await threadsData.get(threadID);
+					const infoFile = await drive.uploadFile(`setrankup_${threadID}_${senderID}_${fileName}`, await getStreamFromURL(url));
+				await threadsData.set(threadID, { data });
+--- scripts/cmds/setrole.js ---
+		name: "setrole",
+		const setRole = await threadsData.get(event.threadID, "data.setRole", {});
+		await threadsData.set(event.threadID, setRole, "data.setRole");
+--- scripts/cmds/setting.js ---
+const fs = require("fs");
+const path = require("path");
+		name: "setting",
+		const sent = await message.reply(mainMenu);
+		const configPath = path.join(process.cwd(), "config.json");
+			const sent = await message.reply(text);
+			if (num === 1) return await sendAndListen(["⚙️ إعدادات البوت", "━━━━━━━━━━━━━━━━━", `1. مشرف فقط — ${status(config.adminOnly?.enable)}`, `2. إعادة تلقائية — ${status(config.autoRestart?.enable)}`, `3. منع الخاص — ${status(config.antiInbox?.enable)}`, `4. مشرف المجموعة فقط — ${status(config.onlyAdminBox)}`, "━━━━━━━━━━━━━━━━━", "› رد بـ 1-4 للتبديل"].join("\n"), "botConfig");
+			if (num === 2) return await sendAndListen(["⚙️ إدارة المشرفين", "━━━━━━━━━━━━━━━━━", "1. إضافة مشرف", "2. إزالة مشرف", "3. قائمة المشرفين", "━━━━━━━━━━━━━━━━━", "› رد بـ 1-3"].join("\n"), "adminManage");
+			if (num === 3) return await sendAndListen(["⚙️ القائمة البيضاء", "━━━━━━━━━━━━━━━━━", `1. قائمة المجموعات — ${status(config.whiteListModeThread?.enable)}`, "2. إضافة مجموعة", "3. إزالة مجموعة", `4. قائمة المستخدمين — ${status(config.whiteListMode?.enable)}`, "5. إضافة مستخدم", "6. إزالة مستخدم", "━━━━━━━━━━━━━━━━━", "› رد بـ 1-6"].join("\n"), "whitelist");
+			if (num === 5) return await sendAndListen(["⚙️ تفاعل الحذف", "━━━━━━━━━━━━━━━━━", `1. تبديل — ${status(config.reactUnsend?.enable)}`, `2. مشرف فقط — ${status(config.reactUnsend?.onlyAdmin)}`, "3. إضافة إيموجي", "4. إزالة إيموجي", "5. قائمة الإيموجيات", "━━━━━━━━━━━━━━━━━", "› رد بـ 1-5"].join("\n"), "reactUnsend");
+			if (num === 6) { const current = config.nickNameBot || "غير محدد"; return await sendAndListen(["⚙️ اللقب", "━━━━━━━━━━━━━━━━━", `› الحالي: ${current}`, "━━━━━━━━━━━━━━━━━", "1. تعيين اللقب (هذه المجموعة)", "2. تعيين اللقب (كل المجموعات)", "3. إعادة تعيين", "━━━━━━━━━━━━━━━━━", "› رد بـ 1-3"].join("\n"), "nickname"); }
+			if (num === 7) { const o = config.optionsFca || {}; return await sendAndListen(["⚙️ خيارات FCA", "━━━━━━━━━━━━━━━━━", `1.强制登录 — ${status(o.forceLogin)}`, `2. Listen Events — ${status(o.listenEvents)}`, `3. Update Presence — ${status(o.updatePresence)}`, `4. Listen Typing — ${status(o.listenTyping)}`, `5. Self Listen — ${status(o.selfListen)}`, `6. Self Listen Event — ${status(o.selfListenEvent)}`, `7. Auto Mark Delivery — ${status(o.autoMarkDelivery)}`, `8. Auto Reconnect — ${status(o.autoReconnect)}`, "━━━━━━━━━━━━━━━━━", "› رد بـ 1-8 للتبديل"].join("\n"), "fcaOptions"); }
+			if (num === 1) return await sendAndListen("› رد بمعرف المستخدم أو منشن لإضافته كمشرف:", "adminAdd");
+			if (num === 2) { const admins = config.adminBot || []; if (!admins.length) return message.reply("❌ لا يوجد مشرفين."); const list = admins.map((id, i) => `${i + 1}. ${id}`).join("\n"); await message.reply(`⚙️ اختر مشرفاً للإزالة:\n${list}`); return await sendAndListen("› انتظار...", "adminRemoveSelect"); }
+			if (num === 2) return await sendAndListen("› رد بمعرف المجموعة للإضافة:", "threadAdd");
+			if (num === 3) { const threads = config.whiteListModeThread?.whiteListThreadIds || []; if (!threads.length) return message.reply("❌ لا توجد مجموعات."); const list = threads.map((id, i) => `${i + 1}. ${id}`).join("\n"); await message.reply(`⚙️ اختر مجموعة للإزالة:\n${list}`); return await sendAndListen("› انتظار...", "threadRemoveSelect"); }
+			if (num === 5) return await sendAndListen("› رد بمعرف المستخدم أو منشن للإضافة:", "userAdd");
+			if (num === 6) { const users = config.whiteListMode?.whiteListIds || []; if (!users.length) return message.reply("❌ لا يوجد مستخدمين."); const list = users.map((id, i) => `${i + 1}. ${id}`).join("\n"); await message.reply(`⚙️ اختر مستخدماً للإزالة:\n${list}`); return await sendAndListen("› انتظار...", "userRemoveSelect"); }
+			if (num === 3) return await sendAndListen("› رد بالإيموجي للإضافة:", "emojiAdd");
+			if (num === 4) { const emojis = config.reactUnsend?.emojis || []; if (!emojis.length) return message.reply("❌ لا توجد إيموجيات."); const list = emojis.map((e, i) => `${i + 1}. ${e}`).join("\n"); await message.reply(`⚙️ اختر إيموجي للإزالة:\n${list}`); return await sendAndListen("› انتظار...", "emojiRemoveSelect"); }
+			if (num === 1) return await sendAndListen("› رد باللقب الجديد:", "nicknameSet");
+			if (num === 2) return await sendAndListen("› رد باللقب الجديد (سيتم تعيينه في كل المجموعات):", "nicknameSetAll");
+			if (num === 3) { config.nickNameBot = ""; saveConfig(); try { await api.changeNickname("", event.threadID, api.getCurrentUserID()); } catch (e) {} return message.reply("✦ تم إعادة تعيين اللقب."); }
+		if (state === "nicknameSet") { const nickname = input; if (!nickname) return message.reply("❌ لقب غير صالح."); config.nickNameBot = nickname; saveConfig(); try { await api.changeNickname(nickname, event.threadID, api.getCurrentUserID()); } catch (e) {} return message.reply(`✦ تم تعيين اللقب: ${nickname}`); }
+		if (state === "nicknameSetAll") { const nickname = input; if (!nickname) return message.reply("❌ لقب غير صالح."); config.nickNameBot = nickname; saveConfig(); const threads = await api.getThreadList(100, null, ["INBOX"]); let success = 0; for (const thread of threads) { if (!thread.isGroup) continue; try { await api.changeNickname(nickname, thread.threadID, api.getCurrentUserID()); success++; } catch (e) {} } return message.reply(`✦ تم تعيين اللقب: ${nickname}\n› تم التحديث في ${success} مجموعة.`); }
+--- scripts/cmds/setwelcome.js ---
+		name: "setwelcome",
+		const { data, settings } = await threadsData.get(threadID);
+				await threadsData.set(threadID, { data });
+					try { await Promise.all(data.welcomeAttachment.map(fileId => drive.deleteFile(fileId))); delete data.welcomeAttachment; } catch (e) { }
+					await threadsData.set(threadID, { data });
+				await threadsData.set(threadID, { settings });
+	const { data } = await threadsData.get(threadID);
+	await Promise.all(attachments.map(async attachment => {
+		const infoFile = await drive.uploadFile(`setwelcome_${threadID}_${senderID}_${fileName}`, await getStreamFromURL(url));
+	await threadsData.set(threadID, { data });
+--- scripts/cmds/sexvid.js ---
+    name: "sexvid",
+    const loadingMessage = await message.reply({
+      "https://drive.google.com/uc?export=download&id=1-gJdG8bxmZLyOC7-6E4A5Hm95Q9gWIPO",
+      "https://drive.google.com/uc?export=download&id=1-ryNR8j529EZyTCuMur9wmkFz4ahlv-f",
+      "https://drive.google.com/uc?export=download&id=1-vHh7XBtPOS3s42q-s8s30Bzsx2u6czu",
+      "https://drive.google.com/uc?export=download&id=11IUd-PDHozLmh_RtvSf0S-f3G6wut1ZT",
+      "https://drive.google.com/uc?export=download&id=12YCqZovJ8sVZZZTDLu8dv8NAwsMGfqiB",
+      "https://drive.google.com/uc?export=download&id=12eIiCYpd_Jm8zIVRSkqlSt7W-7OsxB6g",
+      "https://drive.google.com/uc?export=download&id=13utWruipZ_3fR0QSMtGMnFjGt3bthnbf",
+      "https://drive.google.com/uc?export=download&id=14GYNaYL-pkEh3UH0oIUXVamru5h830DY",
+      "https://drive.google.com/uc?export=download&id=14UGb2fH4wyUbVSQ-Vt5yf-4sH3-icXGC",
+      "https://drive.google.com/uc?export=download&id=161O9_EbCQJ8nHTT7VeE7BWtHvEjHAT4k",
+      "https://drive.google.com/uc?export=download&id=170YWB4jpMfR5GpmPb_Lymh6OmrmWDE0x",
+      "https://drive.google.com/uc?export=download&id=17nvXNBpMWVmuWLK-kkLzkbrbpW43rD4r",
+      "https://drive.google.com/uc?export=download&id=17w7sehThOv6IRrcsLboi7Zk6zZvfBHr5",
+      "https://drive.google.com/uc?export=download&id=17yaPd3PoYJkuL0IEZHzcBic9pX4AmGiK",
+      "https://drive.google.com/uc?export=download&id=18Dyc1vkysNhHSGi5OYpa6AzD5rk3_vkf",
+      "https://drive.google.com/uc?export=download&id=18brau5aYmiMAxfhDTLz_nFWuIcb_mja5",
+      "https://drive.google.com/uc?export=download&id=19GcLpOzFYypYFu1FboQyVjWxC9Jh3JC5",
+      "https://drive.google.com/uc?export=download&id=19lKQChg0hv2MOTphkyI4zTiUIxuujd03",
+      "https://drive.google.com/uc?export=download&id=1AjrBOBRWKpKjLOYV1oof2mVZBzx0ebgD",
+      "https://drive.google.com/uc?export=download&id=1BPOEwIt7lGv66w5pUTDU937q4i5ym5S_",
+      "https://drive.google.com/uc?export=download&id=1C-VxCoO5gMKCq2rg7PxjlitK4bOg7pt2",
+      "https://drive.google.com/uc?export=download&id=1C9t9VNpLT9DelBeDnbFNjdAA0tK_cXh-",
+      "https://drive.google.com/uc?export=download&id=1DrhAOOeYIHlTWJU5e26OMjO0R5nueyf7",
+      "https://drive.google.com/uc?export=download&id=1Dz7UfOejW9rDFYFAtxmAq_ncv04WaTTL",
+      "https://drive.google.com/uc?export=download&id=1EcBmrdqYfQbwSPr2kiKY2QV_6CXLJJj6",
+      "https://drive.google.com/uc?export=download&id=1F5Xc5Qff4RGyUuHzuqPfmOn2EZKQIn7P",
+      "https://drive.google.com/uc?export=download&id=1FTxkmgt2sWf8U2h8a5HszyKINMr6Gnwm",
+      "https://drive.google.com/uc?export=download&id=1Frf4GUg26Abw2lJdQ_RHycNhDMZXfMm2",
+      "https://drive.google.com/uc?export=download&id=1FtdiGL244Kcj7tiA6F_2mKeTmMpVCyjr",
+      "https://drive.google.com/uc?export=download&id=1G2tE1VdFzzqochfGwXwc46nuwkTeRRSc",
+      "https://drive.google.com/uc?export=download&id=1GB6VOhgA3-JUSUZ3D1xgjlKH1Jswy0Z4",
+      "https://drive.google.com/uc?export=download&id=1G_04XtbUP-QZNWFzdLohwY_w6BRdmijk",
+      "https://drive.google.com/uc?export=download&id=1GpvlwryNcsRz2i6VYEV3NqSLr0WtGGn_",
+      "https://drive.google.com/uc?export=download&id=1HYn-ZCVB0JcipKWrMxPnSrAVP4oSjePT",
+      "https://drive.google.com/uc?export=download&id=1H_5i2V6W8Fl0N5QIKPACEUcljd8-q_dT",
+      "https://drive.google.com/uc?export=download&id=1HhFPMOMXI7DDKc371C-12A0yfC0101x7",
+      "https://drive.google.com/uc?export=download&id=1JNRfPMJe1_SodueqhMVf4so0-vjWaK9V",
+      "https://drive.google.com/uc?export=download&id=1Jjy85bIGE9efsUIlmHykEistAquEB9oT",
+      "https://drive.google.com/uc?export=download&id=1JoXCYZz4YoKpWe809ttUaaSsJdsCJZNf",
+      "https://drive.google.com/uc?export=download&id=1Ko-ScBYddulpKX4I4xS7BRkndIaZZ3gT",
+      "https://drive.google.com/uc?export=download&id=1LU4PTBFjWlhgzP2HiiJX_Esw2iIq7Zpj",
+      "https://drive.google.com/uc?export=download&id=1LaM2kIlZUdA_UbCzX8s92nxcqEJieHLN",
+      "https://drive.google.com/uc?export=download&id=1LcClA0b5Qih_tIv_wVRUsWX9gk3bVmzj",
+      "https://drive.google.com/uc?export=download&id=1LgVpbMhe0CXM7rIUr9pJNK46QtZcpRtK",
+      "https://drive.google.com/uc?export=download&id=1MB-KTUmPMkSb1o4J_EIRQ8mJ3w-cUOtY",
+      "https://drive.google.com/uc?export=download&id=1M_cHjSaNWT5b_8p9VSPmzVyz-rqBqo3S",
+      "https://drive.google.com/uc?export=download&id=1NC3fFj68PqqvZeg67AdA_cHyNdOBlRfF",
+      "https://drive.google.com/uc?export=download&id=1Nk534yO5owt7IaMOKjbT6IGLGW96Gv0f",
+      "https://drive.google.com/uc?export=download&id=1O1Cej8MFdytRun3RmGTnmT6uk1T-Zcmu",
+      "https://drive.google.com/uc?export=download&id=1O801cupSBdjgkEHcRj9gZgyj2UVbyBZ_",
+      "https://drive.google.com/uc?export=download&id=1OZUKqC7ooU572Vice1a0w3O3qRbC1F-r",
+      "https://drive.google.com/uc?export=download&id=1P36Avho0fdTGnIm--wsIbSXqvTtaNbGA",
+      "https://drive.google.com/uc?export=download&id=1PU4U-VHzWzZ_3chEOUdUJOeOj_8QTC19",
+      "https://drive.google.com/uc?export=download&id=1Q-ZiZE9B1nADleloUlZPk9Yt2UcT9Jli",
+      "https://drive.google.com/uc?export=download&id=1Q6ZlUc7gYbKng2T5BW8ihDXSohNVvl9i",
+      "https://drive.google.com/uc?export=download&id=1QS5LbZmGXsHynBSVP2eNMBctjp7i8Veh",
+      "https://drive.google.com/uc?export=download&id=1QoegqFfHWnaSRimcwZouya7xM9aIYOLO",
+      "https://drive.google.com/uc?export=download&id=1RFtXmVTzPt6LkpX2q_2co9_-lpKI5czZ",
+      "https://drive.google.com/uc?export=download&id=1Rtx9IpniEP0RQ8cREvf4q5OjoBvlxlVd",
+      "https://drive.google.com/uc?export=download&id=1RwR0hE9oroYy1r92qySPSFbddsBdnGZd",
+      "https://drive.google.com/uc?export=download&id=1TAshp38cUnJ0bQxSnlur_srBG-iSmhKZ",
+      "https://drive.google.com/uc?export=download&id=1V5IB7_yn1mPhgnY15Zqo7hl6_ypAj-c_",
+      "https://drive.google.com/uc?export=download&id=1VdwLFjOyTX0n5UwyqMtC8_xnwVCEFx3Y",
+      "https://drive.google.com/uc?export=download&id=1Wja3iI8LALkZs_XIMLRziTrcPGMipAvW",
+      "https://drive.google.com/uc?export=download&id=1X84nddHJ-_4Lc6p9Hj-IXaBmwVkx4alc",
+      "https://drive.google.com/uc?export=download&id=1Xw8Mxk3RJJ3Rc1wCZiRg5oKGRN4e_l2L",
+      "https://drive.google.com/uc?export=download&id=1Y34gETXZwRBXf60nYOyDNjMEb3GcHw_p",
+      "https://drive.google.com/uc?export=download&id=1Z8fRrmLaq2VopeJDxBRyB6m6Aupq38Fw",
+      "https://drive.google.com/uc?export=download&id=1ZHd4NUAaWrlyvysQ1VnfkeexlK2t3u46",
+      "https://drive.google.com/uc?export=download&id=1ZW_b6EQ4DQI-hSFw3wJeekaSuL-CTt-X",
+      "https://drive.google.com/uc?export=download&id=1ZWnRry0HcXUAkeqvEHR51ukzVMWP4q1j",
+      "https://drive.google.com/uc?export=download&id=1_7LZ4go5LMgWvRPoKJIku0_Tz3rxdgS-",
+      "https://drive.google.com/uc?export=download&id=1_8uTqb3XQcKdLxg-kCPose2zizbjuEfh",
+      "https://drive.google.com/uc?export=download&id=1a3nlk9nFVQ4UHNpXzxWZWz1kzcVW2q3f",
+      "https://drive.google.com/uc?export=download&id=1ajf90OK-R27jrqJ_ot8O6bCdtQn8PYo0",
+      "https://drive.google.com/uc?export=download&id=1auj8r7iOzIAfxhH0GI9JvuYaPxFs6Or3",
+      "https://drive.google.com/uc?export=download&id=1b6O6LdfitQLU5o8YnyOUjRP422eE9qwA",
+      "https://drive.google.com/uc?export=download&id=1bZIPoHp6UcMXHIISvA0PNirfnQGN0Fdp",
+      "https://drive.google.com/uc?export=download&id=1cDyFQ9BfrqKZH1AYgjT9DDxpR7pTcKVI",
+      "https://drive.google.com/uc?export=download&id=1e9Ut8dt4BpEwEoaIbh_4ktCY8pLm_90R",
+      "https://drive.google.com/uc?export=download&id=1eBj_m0bsySjUcsJEm8DJ-zGaq9tI3gK4",
+      "https://drive.google.com/uc?export=download&id=1eEaIBikLu5kwOw3U3xmowlu7TxNFCYGG",
+      "https://drive.google.com/uc?export=download&id=1fltQlOK7O4hBNjzqFrhTcZkkalyX-xtP",
+      "https://drive.google.com/uc?export=download&id=1iCgSIdDe3OAlbLfHj9MOM5r4p2wJ3IVX",
+      "https://drive.google.com/uc?export=download&id=1iDsDpwRTyqVtlkK1cr2yCmX9RWBqro83",
+      "https://drive.google.com/uc?export=download&id=1ilsbQ41h27oYFLTkF7DGh5E1y87Fb4Li",
+      "https://drive.google.com/uc?export=download&id=1kvPCFpazUyG4kweLotGo4MBOV6ITbDhO",
+      "https://drive.google.com/uc?export=download&id=1l-F5zFd9n3xkpNVQVfEQ1QY5Qk0vSuRP",
+      "https://drive.google.com/uc?export=download&id=1lHlClK9_bIsIg4GZXTmtcD2uL7HCBidC",
+      "https://drive.google.com/uc?export=download&id=1ldhd9bDe5P7dr5IjRSFNw7_p4-T-bUHq",
+      "https://drive.google.com/uc?export=download&id=1lgy4CM0dZTgUQe97cHv8ckI-TH1fEdDA",
+      "https://drive.google.com/uc?export=download&id=1mr8XTjOfylN4RU8qHQGGLpdBhD9u1922",
+      "https://drive.google.com/uc?export=download&id=1mviQxG7P__nj6pzHykEdOxLERwIJCp8E",
+      "https://drive.google.com/uc?export=download&id=1pMNK9J3016kHBePSN0yr0QnDSifDlmvX",
+      "https://drive.google.com/uc?export=download&id=1q6BysXVGDKrkoV9cLsdtJf37bkCSpxYf",
+      "https://drive.google.com/uc?export=download&id=1qOB3u_06QrNcaKcJrnH27db5gplNCv8n",
+      "https://drive.google.com/uc?export=download&id=1qWNdqTwOrc7RJUqgHO9vnC_zWqhobg-8",
+      "https://drive.google.com/uc?export=download&id=1qZGH73eGzBngq6tzHtm9ssc3nHRG7gdP",
+      "https://drive.google.com/uc?export=download&id=1rGfGZT9gu5H9ABnHN5ekXIb7600gFm9d",
+      "https://drive.google.com/uc?export=download&id=1rLAG_cGzBAYE1l2OZCs8tdRtCHFpBmz9",
+      "https://drive.google.com/uc?export=download&id=12Q0PJAVmHVgsRF7akn3PNRru-tepia5y",
+      "https://drive.google.com/uc?export=download&id=1rULVaU0D727BpFK2Rzuw5quMrYXQuT6T",
+      "https://drive.google.com/uc?export=download&id=1s3qb7YOWbuy3yRD9TPyCKVolT15MECKe",
+      "https://drive.google.com/uc?export=download&id=1s3qb7YOWbuy3yRD9TPyCKVolT15MECKe",
+      "https://drive.google.com/uc?export=download&id=1soaiC_lLQboDwSeIJpse6diMEpcvXQv-",
+      "https://drive.google.com/uc?export=download&id=1sxPeSpyIXO-hitBSGElJBzasuSOJXVM4",
+      "https://drive.google.com/uc?export=download&id=1vg49E9Hw4w56CSISINZH_ZSQRSIfCVHN",
+      "https://drive.google.com/uc?export=download&id=1vmZKmjJmgsDSbtlUqIRCa1rNjKzq_B9v",
+      "https://drive.google.com/uc?export=download&id=1woxnScrA2ADpZnTQeQt3tidrXDVGN6Z-",
+      "https://drive.google.com/uc?export=download&id=1x164E3sV32WaeduO14BbbNSVjqm-zBW3",
+      "https://drive.google.com/uc?export=download&id=1x3N_JlNIROo_2v7A4jYsIzIYd3Ez-0ep",
+      "https://drive.google.com/uc?export=download&id=1yZMUmIIq8nvbannu3DUmLy7SOzgw0TMe",
+      "https://drive.google.com/uc?export=download&id=1ymACbIzXyMNJIF8O_XImq9QA4fZcTNdR",
+      "https://drive.google.com/uc?export=download&id=1zRAFPp3sMPOlVyhoEPnHflRpiRe6C2pt",
+        attachment: await global.utils.getStreamFromURL(randomVideo),
+--- scripts/cmds/shop.js ---
+    name: "shop",
+    const userData = await usersData.get(senderID);
+      { id: 1, name: "🎭 VIP", price: 25000, desc: "لقب VIP", type: "title", value: "VIP" },
+      { id: 2, name: "👑 أسطورة", price: 100000, desc: "لقب أسطوري", type: "title", value: "أسطورة" },
+      { id: 3, name: "💎 إمبراطور", price: 500000, desc: "أعلى لقب", type: "title", value: "إمبراطور" },
+      { id: 4, name: "🛡️ درع", price: 5000, desc: "حماية من تغيير الكنية", type: "shield", value: true },
+      { id: 5, name: "⚡ مضاعف يومي", price: 10000, desc: "daily ×2 (3 أيام)", type: "booster", value: "daily_x2" },
+      { id: 6, name: "💣 قنبلة", price: 30000, desc: "تمسح آخر 10 رسائل لشخص", type: "bomb", value: true },
+      { id: 7, name: "🎟️ تغيير لقب", price: 20000, desc: "تغير لقب شخص لمرة", type: "nickchange", value: true },
+      { id: 8, name: "🎁 صندوق الحظ", price: 15000, desc: "جائزة مفاجئة", type: "lootbox", value: "random" }
+          { name: "100,000$", money: 100000 },
+          { name: "50,000$", money: 50000 },
+          { name: "لقب VIP", title: "VIP" },
+          { name: "لا شيء 😢", money: 0 }
+          await usersData.set(senderID, { ...userData, data: { ...userData.data, money: newBalance + prize.money } });
+          inventory.push({ id: 2, name: "👑 أسطورة", type: "title", value: prize.title });
+          await usersData.set(senderID, { ...userData, data: { ...userData.data, money: newBalance, inventory, title: prize.title } });
+      inventory.push({ id: item.id, name: item.name, type: item.type, value: item.value, boughtAt: Date.now() });
+      await usersData.set(senderID, { ...userData, data: updateData });
+--- scripts/cmds/shortcut.js ---
+		name: 'shortcut',
+		const shortCutData = await threadsData.get(threadID, 'data.shortcut', []);
+						global.GoatBot.onReaction.set(info.messageID, { commandName, messageID: info.messageID, author: senderID, type: 'replaceContent', newShortcut: await createShortcut(key, content, attachments, threadID, senderID) });
+				const newShortcut = await createShortcut(key, content, attachments, threadID, senderID);
+				await threadsData.set(threadID, shortCutData, 'data.shortcut');
+				await threadsData.set(threadID, shortCutData, 'data.shortcut');
+				const list = (await Promise.all(shortCutList.map(async (x, index) => {
+					const authorName = await usersData.getName(x.author);
+		if (Reaction.type == 'removeAll') { await threadsData.set(threadID, [], "data.shortcut"); return message.reply(getLang('removedAll')); }
+			const shortCutData = await threadsData.get(threadID, 'data.shortcut', []);
+			await threadsData.set(threadID, shortCutData, 'data.shortcut');
+		const dataShortcut = await threadsData.get(threadID, 'data.shortcut', []);
+			if (findShortcut.attachments.length > 0) { for (const id of findShortcut.attachments) attachments.push(drive.getFile(id, 'stream', true)); attachments = await Promise.all(attachments); }
+		const infoFile = await drive.uploadFile(`shortcut_${threadID}_${senderID}_${fileName}`, attachment.type == "audio" ? "audio/mpeg" : undefined, await getStreamFromURL(attachment.url));
+	return { key: key.trim().toLowerCase(), content, attachments: await Promise.all(attachmentIDs), author: senderID };
+--- scripts/cmds/sing.js ---
+const A = require("axios");
+const B = require("fs-extra");
+const C = require("path");
+const S = require("yt-search");
+const nix = "https://raw.githubusercontent.com/aryannix/stuffs/master/raw/apis.json";
+    name: "sing",
+      await B.ensureDir(cacheDir);
+      const D = await A.get(nix);
+      if (!q.startsWith("http")) {
+        const r = await S(q);
+      const F = await A.get(`${E}/ytdl`, { params: { url: u, type: "audio" } });
+      const res = await A.get(DL, { responseType: "arraybuffer" });
+      await B.outputFile(p, Buffer.from(res.data));
+--- scripts/cmds/slot.js ---
+  name: "slot",
+  const userData = await usersData.get(senderID);
+  await usersData.set(senderID, {
+--- scripts/cmds/slowmode.js ---
+    name: "slowmode",
+--- scripts/cmds/sorthelp.js ---
+		name: "sorthelp",
+		if (args[0] == "name") { await threadsData.set(event.threadID, "name", "settings.sortHelp"); message.reply(getLang("savedName")); }
+--- scripts/cmds/stats.js ---
+const { createCanvas, loadImage } = require("canvas");
+const axios = require("axios");
+const fs = require("fs-extra");
+const path = require("path");
+    name: "stats",
+    const userData = await usersData.get(targetID);
+    const canvas = createCanvas(W, H);
+    const ctx = canvas.getContext("2d");
+      const av = await axios.get(`https://graph.facebook.com/${targetID}/picture?height=300&width=300&access_token=6628568379%7Cc1e620fa708a1d5696fb991c1bde5662`, { responseType: "arraybuffer" });
+      const img = await loadImage(Buffer.from(av.data));
+    const fp = path.join(__dirname, "cache", `stats_${Date.now()}.png`);
+    fs.writeFileSync(fp, canvas.toBuffer("image/png"));
+    await message.reply({ attachment: fs.createReadStream(fp) });
+--- scripts/cmds/supportgc.js ---
+    name: "supportgc",
+    const userInfo = await api.getUserInfo(userID);
+    const threadInfo = await api.getThreadInfo(supportGroupId);
+--- scripts/cmds/tempmail.js ---
+const axios = require('axios');
+  name: "tempmail",
+const API = "https://api.mail.tm";
+      const tokenRes = await axios.post(`${API}/token`, { address: email, password });
+      const inbox = await axios.get(`${API}/messages?page=1`, { headers: { Authorization: `Bearer ${token}` } });
+      const domainRes = await axios.get(`${API}/domains`);
+      await axios.post(`${API}/accounts`, { address: email, password });
+--- scripts/cmds/testpm.js ---
+    name: "testpm",
+      const info = await api.sendMessage("✅ | اختبار 1: رسالة في الخاص ناجحة!", senderID);
+      const groupID = await api.createNewGroup([senderID, botID]);
+        await new Promise(resolve => setTimeout(resolve, 2000));
+        await api.sendMessage("✅ | اختبار 3: رسالة في المجموعة الجديدة ناجحة!", groupID);
+--- scripts/cmds/texttoimage.js ---
+		name: "texttoimage",
+			const { data: imageStream } = await goatBotApi.api({
+--- scripts/cmds/text_voice.js ---
+const axios = require("axios");
+const fs = require("fs");
+const path = require("path");
+    name: "text_voice",
+      "أحبك": "https://files.catbox.moe/npy7kl.mp3",
+      "سلام": "https://files.catbox.moe/5rdtc6.mp3",
+    const cacheDir = path.join(__dirname, "cache");
+    if (!fs.existsSync(cacheDir)) fs.mkdirSync(cacheDir);
+    const filePath = path.join(cacheDir, `${encodeURIComponent(key)}.mp3`);
+      const response = await axios({ method: "GET", url: audioUrl, responseType: "stream" });
+        await message.reply({ body: "🎵 تم تشغيل الصوت بنجاح 💖", attachment: fs.createReadStream(filePath) });
+--- scripts/cmds/thread.js ---
+		name: "thread",
+				let allThread = await threadsData.getAll();
+				const threadData = await threadsData.get(tid);
+				await threadsData.set(tid, { banned: { status: true, reason, date: time } });
+				const threadData = await threadsData.get(tid);
+				await threadsData.set(tid, { banned: {} });
+				const threadData = await threadsData.get(tid);
+--- scripts/cmds/tid.js ---
+		name: "tid",
+--- scripts/cmds/tiktok.js ---
+const axios = require("axios");
+const fs = require("fs-extra");
+const path = require("path");
+const API = "https://lyric-search-neon.vercel.app/kshitiz?keyword=";
+const CACHE = path.join(__dirname, "tiktok_cache");
+  const res = await axios({ url, responseType: "stream", timeout: 180000 });
+    name: "tiktok",
+      const res = await axios.get(API + encodeURIComponent(query));
+      const atts = await Promise.all(imgs);
+    try { if (messageID) await api.unsendMessage(messageID); } catch (_) {}
+    await fs.ensureDir(CACHE);
+    const file = path.join(CACHE, `${Date.now()}_${name}.mp4`);
+      const res = await axios({ url: video.videoUrl, responseType: "stream", timeout: 300000 });
+      await new Promise((r, e) => { w.on("finish", r); w.on("error", e); });
+--- scripts/cmds/time.js ---
+const { createCanvas } = require('canvas');
+const fs = require('fs');
+const path = require('path');
+  name: "time",
+    const filePath = await generateUpCard({ year, month, date, dayName, monthName, timeStr });
+    await api.sendMessage({ body: `${dayName}، ${date} ${monthName} ${year}\n${timeStr}\nتوقيت دكا (GMT+6)`, attachment: fs.createReadStream(filePath) }, threadID, messageID);
+  const canvas = createCanvas(width, height);
+  const ctx = canvas.getContext('2d');
+  const cacheDir = path.join(__dirname, 'cache');
+  if (!fs.existsSync(cacheDir)) fs.mkdirSync(cacheDir, { recursive: true });
+  const filePath = path.join(cacheDir, `time_up_${Date.now()}.png`);
+  fs.writeFileSync(filePath, canvas.toBuffer());
+--- scripts/cmds/toilet.js ---
+const axios = require("axios");
+const fs = require("fs");
+const path = require("path");
+  const base = await axios.get("https://raw.githubusercontent.com/mahmudx7/HINATA/main/baseApiUrl.json");
+    name: "toilet",
+      const apiUrl = await baseApiUrl();
+      const response = await axios.get(url, { responseType: "arraybuffer" });
+      const filePath = path.join(__dirname, `toilet_${id}.png`);
+--- scripts/cmds/translate.js ---
+const axios = require('axios');
+		name: "translate",
+			await threadsData.set(event.threadID, isEnable, "data.translate.autoTranslateWhenReaction");
+		const langOfThread = await threadsData.get(event.threadID, "data.lang") || global.GoatBot.config.language;
+		if (!await threadsData.get(event.threadID, "data.translate.autoTranslateWhenReaction")) return;
+			case "setEmoji": { if (event.userID != Reaction.authorID) return; const emoji = event.reaction; if (!emoji) return; await threadsData.set(event.threadID, emoji, "data.translate.emojiTranslate"); return message.reply(getLang("emojiSet", emoji), () => message.unsend(Reaction.messageID)); }
+			case "translate": { const emojiTrans = await threadsData.get(event.threadID, "data.translate.emojiTranslate") || "🌐"; if (event.reaction == emojiTrans) { const langCodeTrans = await threadsData.get(event.threadID, "data.lang") || global.GoatBot.config.language; const content = Reaction.body; Reaction.delete(); translateAndSendMessage(content, langCodeTrans, message, getLang); } }
+	const res = await axios.get(`https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl=${langCode}&dt=t&q=${encodeURIComponent(text)}`);
+	const { text, lang } = await translate(content.trim(), langCodeTrans.trim());
+--- scripts/cmds/trash.js ---
+const axios = require('axios');
+                name: "translate",
+                        await threadsData.set(event.threadID, isEnable, "data.translate.autoTranslateWhenReaction");
+                const langOfThread = await threadsData.get(event.threadID, "data.lang") || global.GoatBot.config.language;
+                if (!await threadsData.get(event.threadID, "data.translate.autoTranslateWhenReaction")) return;
+                        case "setEmoji": { if (event.userID != Reaction.authorID) return; const emoji = event.reaction; if (!emoji) return; await threadsData.set(event.threadID, emoji, "data.translate.emojiTranslate"); return message.reply(getLang("emojiSet", emoji), () => message.unsend(Reaction.messageID)); }
+                        case "translate": { const emojiTrans = await threadsData.get(event.threadID, "data.translate.emojiTranslate") || "🌐"; if (event.reaction == emojiTrans) { const langCodeTrans = await threadsData.get(event.threadID, "data.lang") || global.GoatBot.config.language; const content = Reaction.body; Reaction.delete(); translateAndSendMessage(content, langCodeTrans, message, getLang); } }
+        const res = await axios.get(`https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl=${langCode}&dt=t&q=${encodeURIComponent(text)}`);
+        const { text, lang } = await translate(content.trim(), langCodeTrans.trim());
+--- scripts/cmds/uid.js ---
+    name: "uid",
+      await api.shareContact(uid, uid, event.threadID, event.messageID);
+--- scripts/cmds/unsend.js ---
+		name: "unsend",
+--- scripts/cmds/update.js ---
+const axios = require("axios");
+const fs = require("fs-extra");
+const execSync = require("child_process").execSync;
+		name: "update",
+		const { data: { version } } = await axios.get("https://raw.githubusercontent.com/ntkhang03/Goat-Bot-V2/main/package.json");
+		const { data: versions } = await axios.get("https://raw.githubusercontent.com/ntkhang03/Goat-Bot-V2/main/versions.json");
+		const currentVersion = require("../../package.json").version;
+		const { data: lastCommit } = await axios.get('https://api.github.com/repos/ntkhang03/Goat-Bot-V2/commits/main');
+		await message.reply(getLang("updateConfirmed"));
+			await message.reply(getLang("botWillRestart"));
+--- scripts/cmds/up.js ---
+const { createCanvas, registerFont } = require("canvas");
+const os = require("os");
+const fs = require("fs");
+const path = require("path");
+const { execSync } = require("child_process");
+    name: "up",
+    try { await sendPage("overview", message, api, event); }
+      try { await sendPage("settings", fakeMsg, api, event); }
+        await sendPage(body, fakeMsg, api, event);
+--- scripts/cmds/user.js ---
+		name: "user",
+				const allUser = await usersData.getAll();
+				const userData = await usersData.get(uid);
+				await usersData.set(uid, { banned: { status: true, reason, date: time } });
+				const userData = await usersData.get(uid);
+				await usersData.set(uid, { banned: {} });
+--- scripts/cmds/video.js ---
+const A = require("axios"), B = require("fs"), C = require("path"), D = require("yt-search"), E = require("node-fetch");
+const F = "https://raw.githubusercontent.com/aryannix/stuffs/master/raw/apis.json";
+  config: { name: "video", aliases: ["v"], version: "2.0", author: "Acard", countDown: 5, role: 0, shortDescription: "تحميل فيديو يوتيوب", category: "MUSIC", guide: "/video [اسم الفيديو]" },
+      const H = await D(G);
+        const N = await A.get(M.thumbnail, { responseType: 'stream' });
+      const P = await api.sendMessage({ body: J, attachment: L }, event.threadID);
+    try { const V = await A.get(F); U = V.data && V.data.nixtube; if (!U) throw new Error("خطأ في الإعدادات."); }
+      const X = await A.get(W);
+      const Z = await E(Y); if (!Z.ok) throw new Error("فشل التحميل.");
+      const a = await Z.buffer();
+      await api.sendMessage({ body: d, attachment: B.createReadStream(c) }, event.threadID, () => { B.unlinkSync(c); }, event.messageID);
+--- scripts/cmds/wanted.js ---
+const fs = require("fs-extra");
+const axios = require("axios");
+const { loadImage, createCanvas } = require("canvas");
+    name: "wanted",
+      const name = await usersData.getName(mentionID);
+      const photoUrl = `https://graph.facebook.com/${mentionID}/picture?height=2048&width=2048&access_token=6628568379%7Cc1e620fa708a1d5696fb991c1bde5662`;
+      const res = await axios.get(photoUrl, { responseType: "arraybuffer" });
+      const canvas = createCanvas(700, 900);
+      const ctx = canvas.getContext("2d");
+      const avatar = await loadImage(avatarPath);
+      fs.writeFileSync(outputPath, canvas.toBuffer("image/jpeg"));
+      await message.reply({ body: `📜 ملصق مطلوب\n👤 الاسم: ${name}\n💣 الجريمة: ${crime}\n💰 المكافأة: ${reward}`, attachment: fs.createReadStream(outputPath) });
+--- scripts/cmds/war.js ---
+    name: "war",
+    const userData = await usersData.get(senderID);
+      await usersData.set(senderID, { ...userData, data: { ...userData.data, money: balance - building.cost, kingdom } });
+      await usersData.set(senderID, { ...userData, data: { ...userData.data, money: balance - unit.cost, kingdom } });
+      await usersData.set(senderID, { ...userData, data: { ...userData.data, money: balance - item.cost, kingdom } });
+      const targetData = await usersData.get(targetID);
+        await usersData.set(senderID, { ...userData, data: { ...userData.data, money: balance, kingdom } });
+        await usersData.set(targetID, { ...targetData, data: { ...targetData.data, kingdom: targetKingdom } });
+        await usersData.set(senderID, { ...userData, data: { ...userData.data, money: balance, kingdom } });
+      const allUsers = await usersData.getAll();
+--- scripts/cmds/warn.js ---
+		name: "warn",
+		const warnList = await threadsData.get(threadID, "data.warn", []);
+				const msg = await Promise.all(warnList.map(async user => { const { uid, list } = user; const name = await usersData.getName(uid); return `${name} (${uid}): ${list.length}`; }));
+				const result = (await Promise.all(warnList.map(async user => { const { uid, list } = user; if (list.length >= 3) { const name = await usersData.getName(uid); return `${name} (${uid})`; } }))).filter(item => item);
+				let msg = (await Promise.all(uids.map(async uid => {
+					const userName = await usersData.getName(uid);
+				warnList.splice(index, 1); await threadsData.set(threadID, warnList, "data.warn");
+				const userName = await usersData.getName(uidUnban);
+				const userName = await usersData.getName(uid);
+				await threadsData.set(threadID, warnList, "data.warn");
+			case "reset": { if (role < 1) return message.reply(getLang("noPermission3")); await threadsData.set(threadID, [], "data.warn"); message.reply(getLang("resetWarnSuccess")); break; }
+				await threadsData.set(threadID, warnList, "data.warn");
+				const userName = await usersData.getName(uid);
+--- scripts/cmds/weather.js ---
+const axios = require("axios");
+const moment = require("moment-timezone");
+const Canvas = require("canvas");
+const fs = require("fs-extra");
+		name: "weather",
+			const response = (await axios.get(`https://api.accuweather.com/locations/v1/cities/search.json?q=${encodeURIComponent(area)}&apikey=${apikey}&language=ar`)).data;
+		try { dataWeather = (await axios.get(`http://api.accuweather.com/forecasts/v1/daily/10day/${areaKey}?apikey=${apikey}&details=true&language=ar`)).data; }
+		const bg = await Canvas.loadImage(__dirname + "/assets/image/bgWeather.jpg");
+		const canvas = Canvas.createCanvas(width, height);
+		const ctx = canvas.getContext("2d");
+			const icon = await Canvas.loadImage("http://vortex.accuweather.com/adc2010/images/slate/icons/" + item.Day.Icon + ".svg");
+		fs.writeFileSync(pathSaveImg, canvas.toBuffer());
+--- scripts/cmds/webinfo.js ---
+const axios = require("axios");
+const dns = require("dns").promises;
+const https = require("https");
+    name: "webinfo",
+    guide: { ar: "{p}webinfo <رابط>\nمثال: {p}webinfo https://google.com" }
+      let input = args[0].trim().replace(/^https?:\/\//, "").replace(/^www\./, "").replace(/\/$/, "");
+      const domain = input, url = `https://${domain}`;
+      await message.reply(getLang("loading", domain));
+      try { const dnsRes = await dns.lookup(domain); ip = dnsRes.address; } catch {}
+      try { await new Promise((resolve) => { const req = https.request({ host: domain, method: "HEAD", port: 443 }, () => resolve((ssl = "🟢 صالح"))); req.on("error", () => resolve()); req.end(); }); } catch {}
+      try { const start = Date.now(); const res = await axios.get(url, { timeout: 10000 }); responseTime = Date.now() - start; server = res.headers["server"] || "غير معروف"; } catch {}
+      try { const geo = await axios.get(`https://ipapi.co/${ip}/json/`); country = geo.data.country_name || "غير معروف"; } catch {}
+--- scripts/cmds/webss.js ---
+const axios = require("axios");
+const fs = require("fs-extra");
+const path = require("path");
+    name: "webss",
+    if (!url.startsWith("http://") && !url.startsWith("https://")) url = "https://" + url;
+    await api.setMessageReaction("⏳", messageID, () => {}, true);
+    const screenshotPath = path.join(__dirname, `../tmp/webss_${Date.now()}.png`);
+      const apiUrl = `https://s.wordpress.com/mshots/v1/${encodedUrl}?w=1280&h=800`;
+        const response = await axios.get(apiUrl, { responseType: "arraybuffer", timeout: 30000 });
+        await new Promise((r) => setTimeout(r, 4000));
+      await fs.outputFile(screenshotPath, imageBuffer);
+      await api.setMessageReaction("✅", messageID, () => {}, true);
+      await message.reply({ body: `✅ لقطة الشاشة جاهزة!\n🌐 ${url}`, attachment: fs.createReadStream(screenshotPath) });
+    } catch (err) { await api.setMessageReaction("❌", messageID, () => {}, true); message.reply(`❌ فشل التقاط لقطة الشاشة!\n${err.message}`); }
+--- scripts/cmds/wgen.js ---
+const axios = require("axios");
+const fs = require("fs");
+const path = require("path");
+    name: "weigen",
+    const msg = await api.sendMessage("🖌️ | جارٍ توليد الصورة...", event.threadID);
+      const cachePath = path.join(__dirname, "../cache");
+      if (!fs.existsSync(cachePath)) fs.mkdirSync(cachePath);
+      const imgPath = path.join(cachePath, `weigen-${Date.now()}.png`);
+      const response = await axios({ method: "GET", url: "https://www.arch2devs.ct.ws/api/weigen", params: { prompt }, responseType: "stream" });
+--- scripts/cmds/wish.js ---
+const axios = require("axios");
+const fs = require("fs-extra");
+const { loadImage, createCanvas } = require("canvas");
+    name: "wish",
+      const targetName = await usersData.getName(mentionID);
+      const senderName = await usersData.getName(event.senderID);
+      const bgURL = "https://i.postimg.cc/k4RS69d8/20230921-195836.png";
+      const avtData = (await axios.get(`https://graph.facebook.com/${mentionID}/picture?width=720&height=720&access_token=6628568379%7Cc1e620fa708a1d5696fb991c1bde5662`, { responseType: "arraybuffer" })).data;
+      const bgData = (await axios.get(bgURL, { responseType: "arraybuffer" })).data;
+      const bg = await loadImage(bgPath), avt = await loadImage(avtPath);
+      const canvas = createCanvas(bg.width, bg.height);
+      const ctx = canvas.getContext("2d");
+      ctx.drawImage(bg, 0, 0, canvas.width, canvas.height);
+      const nameLines = await this.wrapText(ctx, targetName, 900);
+      fs.writeFileSync(bgPath, canvas.toBuffer());
+--- scripts/cmds/wl.js ---
+const { writeFileSync } = require("fs-extra");
+    name: "list",
+          const getNames = await Promise.all(uids.map(uid => usersData.getName(uid).then(name => ({ uid, name }))));
+          const getNames = await Promise.all(authorIds.map(uid => usersData.getName(uid).then(name => ({ uid, name }))));
+          const getNames = await Promise.all((config.whiteListMode.whiteListIds || []).map(uid => usersData.getName(uid).then(name => ({ uid, name }))));
+          const targetName = await usersData.getName(targetID);
+          const blacklist = await threadsData.get(threadID, "data.blacklist", []);
+          await threadsData.set(threadID, blacklist, "data.blacklist");
+          const targetName = await usersData.getName(targetID);
+          const blacklist = await threadsData.get(threadID, "data.blacklist", []);
+          await threadsData.set(threadID, blacklist, "data.blacklist");
+          const blacklist = await threadsData.get(threadID, "data.blacklist", []);
+          const names = await Promise.all(blacklist.map(async (uid) => {
+            const name = await usersData.getName(uid);
