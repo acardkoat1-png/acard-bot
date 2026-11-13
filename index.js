@@ -1,10 +1,11 @@
 /**
- * index.js — مشغّل البوت + سيرفر الصحة + إصلاح الإعدادات من متغيرات Railway
- * -------------------------------------------------------------------------
+ * index.js — مشغّل البوت + سيرفر الصحة + تجهيز البيئة على Railway
+ * ---------------------------------------------------------------
  * 1) ينشئ account.txt من ACCOUNT_B64 (أو أي متغيّر يحتوي account/appstate/cookie)
  * 2) ينشئ config.json من CONFIG_B64 (أو أي متغيّر يحتوي config)
- * 3) يصلح تلقائياً الحقول الإجبارية (credentials) التي يُوقف البوت بسببها
- * 4) يطبّق BOT_PREFIX و BOT_ADMIN_ID إن وُجدا
+ * 3) يصلح الحقول الإجبارية (credentials) التي يُوقف البوت بسببها
+ * 4) ينشئ مجلد database/data (وإلا يتوقف البوت بخطأ ENOENT)
+ * 5) يطبّق BOT_PREFIX و BOT_ADMIN_ID إن وُجدا
  */
 
 const fs = require("fs");
@@ -103,6 +104,24 @@ install(
 	isBotConfig
 );
 
+/* ————————————————— مجلد قاعدة البيانات ————————————————— */
+
+(function prepareDataDir() {
+	const folders = [
+		path.join(__dirname, "database", "data"),
+		path.join(__dirname, "scripts", "cmds", "cache")
+	];
+	for (const folder of folders) {
+		try {
+			fs.mkdirSync(folder, { recursive: true });
+		}
+		catch (error) {
+			console.log(`[env] تعذّر إنشاء ${folder}: ${error.message}`);
+		}
+	}
+	console.log("[env] ✓ مجلدات database/data و scripts/cmds/cache جاهزة");
+})();
+
 /* ————————————————— إصلاح الحقول الإجبارية ————————————————— */
 
 (function fixConfig() {
@@ -119,7 +138,6 @@ install(
 
 	let changed = false;
 
-	// credentials مطلوبة من utils.js وإلا يتوقف البوت
 	if (!config.credentials || typeof config.credentials !== "object") {
 		config.credentials = {};
 		changed = true;
@@ -148,14 +166,12 @@ install(
 		}
 	}
 
-	// أمان إضافي: قاعدة البيانات JSON إن كانت القيمة غير معروفة
 	const validTypes = ["json", "sqlite", "mongodb"];
 	if (config.database && !validTypes.includes(config.database.type)) {
 		config.database.type = "json";
 		changed = true;
 	}
 
-	// تطبيق متغيّرات اختيارية
 	if (process.env.BOT_PREFIX) {
 		config.prefix = process.env.BOT_PREFIX;
 		changed = true;
