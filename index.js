@@ -1,21 +1,18 @@
 /**
- * index.js — مشغّل البوت + صحة الخدمة + إنشاء الملفات السرّية من متغيرات Railway
- * ---------------------------------------------------------------------------
- * على Railway لا يمكنك "رفع" ملفات، لذلك يمكن تمرير:
- *   - ACCOUNT_B64  (أو ACCOUNT_JSON) → يُكتب إلى account.txt
- *   - CONFIG_B64   (أو CONFIG_JSON)  → يُكتب إلى config.json
- *   - BOT_PREFIX   (اختياري) → يغيّر البادئة في config.json
- *   - BOT_ADMIN_ID (اختياري) → يعيّن أدمن البوت (مفصولة بفاصلة)
+ * index.js — مشغّل البوت + سيرفر الصحة + إنشاء الملفات من متغيرات Railway
+ * -----------------------------------------------------------------------
+ * ينشئ تلقائياً:
+ *   ACCOUNT_B64 (أو ACCOUNT_JSON) → account.txt
+ *   CONFIG_B64  (أو CONFIG_JSON)  → config.json
+ *   BOT_PREFIX / BOT_ADMIN_ID     → تعديل سريع في config.json
  *
- * إن لم تكن هذه المتغيرات موجودة، يعمل الملف كما كان تماماً (يقرأ الملفات من المشروع).
+ * بدون هذه المتغيرات يعمل كما كان تماماً.
  */
 
 const fs = require("fs");
 const path = require("path");
 const { spawn } = require("child_process");
 const log = require("./logger/log.js");
-
-/* ————————————————— إنشاء الملفات من متغيرات البيئة ————————————————— */
 
 function decodeValue(raw) {
 	if (!raw) return null;
@@ -44,10 +41,9 @@ function materialize(fileName, envNames) {
 			console.log(`[env] ${envName} ليس JSON صالحاً — تم تجاهله`);
 			continue;
 		}
-		const target = path.join(__dirname, fileName);
 		try {
-			fs.writeFileSync(target, content.trim());
-			console.log(`[env] ${fileName} تم إنشاؤه من ${envName}`);
+			fs.writeFileSync(path.join(__dirname, fileName), content.trim());
+			console.log(`[env] ${fileName} ✓ من ${envName}`);
 		}
 		catch (error) {
 			console.log(`[env] تعذّر كتابة ${fileName}:`, error.message);
@@ -57,10 +53,11 @@ function materialize(fileName, envNames) {
 	return false;
 }
 
-materialize("account.txt", ["ACCOUNT_B64", "ACCOUNT_JSON"]);
-materialize("config.json", ["CONFIG_B64", "CONFIG_JSON"]);
+const gotAccount = materialize("account.txt", ["ACCOUNT_B64", "ACCOUNT_JSON"]);
+const gotConfig = materialize("config.json", ["CONFIG_B64", "CONFIG_JSON"]);
+if (!gotAccount) console.log("[env] تنبيه: account.txt غير موجود في المشروع ولا في المتغيرات");
+if (!gotConfig) console.log("[env] تنبيه: config.json غير موجود في المشروع ولا في المتغيرات");
 
-// تعديلات سريعة بدون لمس الملفات
 (function applyOverrides() {
 	const prefix = process.env.BOT_PREFIX;
 	const adminId = process.env.BOT_ADMIN_ID;
@@ -81,8 +78,6 @@ materialize("config.json", ["CONFIG_B64", "CONFIG_JSON"]);
 	}
 })();
 
-/* ————————————————— تشغيل البوت ————————————————— */
-
 function startProject() {
 	const child = spawn("node", ["Goat.js"], {
 		cwd: __dirname,
@@ -99,8 +94,6 @@ function startProject() {
 }
 
 startProject();
-
-/* ————————————————— سيرفر الصحة (Railway) ————————————————— */
 
 try {
 	const express = require("express");
