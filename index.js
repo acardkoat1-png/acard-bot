@@ -1,18 +1,20 @@
 /**
- * index.js — مشغّل البوت + سيرفر الصحة + إنشاء الملفات من متغيرات Railway
- * -----------------------------------------------------------------------
- * ينشئ تلقائياً:
- *   ACCOUNT_B64 (أو ACCOUNT_JSON) → account.txt
- *   CONFIG_B64  (أو CONFIG_JSON)  → config.json
- *   BOT_PREFIX / BOT_ADMIN_ID     → تعديل سريع في config.json
- *
- * بدون هذه المتغيرات يعمل كما كان تماماً.
+ * index.js — مشغّل البوت + سيرفر الصحة + إصلاح الإعدادات من متغيرات Railway
+ * -------------------------------------------------------------------------
+ * 1) ينشئ account.txt من ACCOUNT_B64 (أو أي متغيّر يحتوي account/appstate/cookie)
+ * 2) ينشئ config.json من CONFIG_B64 (أو أي متغيّر يحتوي config)
+ * 3) يصلح تلقائياً الحقول الإجبارية (credentials) التي يُوقف البوت بسببها
+ * 4) يطبّق BOT_PREFIX و BOT_ADMIN_ID إن وُجدا
  */
 
 const fs = require("fs");
 const path = require("path");
 const { spawn } = require("child_process");
 const log = require("./logger/log.js");
+
+const CONFIG_PATH = path.join(__dirname, "config.json");
+
+/* ————————————————— فك الترميز ————————————————— */
 
 function decodeValue(raw) {
 	if (!raw) return null;
@@ -30,53 +32,151 @@ function decodeValue(raw) {
 	return null;
 }
 
-function materialize(fileName, envNames) {
-	for (const envName of envNames) {
-		const content = decodeValue(process.env[envName]);
-		if (!content) continue;
-		try {
-			JSON.parse(content);
-		}
-		catch (error) {
-			console.log(`[env] ${envName} ليس JSON صالحاً — تم تجاهله`);
-			continue;
-		}
-		try {
-			fs.writeFileSync(path.join(__dirname, fileName), content.trim());
-			console.log(`[env] ${fileName} ✓ من ${envName}`);
-		}
-		catch (error) {
-			console.log(`[env] تعذّر كتابة ${fileName}:`, error.message);
-		}
-		return true;
-	}
-	return false;
-}
-
-const gotAccount = materialize("account.txt", ["ACCOUNT_B64", "ACCOUNT_JSON"]);
-const gotConfig = materialize("config.json", ["CONFIG_B64", "CONFIG_JSON"]);
-if (!gotAccount) console.log("[env] تنبيه: account.txt غير موجود في المشروع ولا في المتغيرات");
-if (!gotConfig) console.log("[env] تنبيه: config.json غير موجود في المشروع ولا في المتغيرات");
-
-(function applyOverrides() {
-	const prefix = process.env.BOT_PREFIX;
-	const adminId = process.env.BOT_ADMIN_ID;
-	if (!prefix && !adminId) return;
-
-	const target = path.join(__dirname, "config.json");
-	if (!fs.existsSync(target)) return;
-
+function isCookieArray(value) {
 	try {
-		const config = JSON.parse(fs.readFileSync(target, "utf8"));
-		if (prefix) config.prefix = prefix;
-		if (adminId) config.adminBot = String(adminId).split(/[,\s]+/).filter(Boolean);
-		fs.writeFileSync(target, JSON.stringify(config, null, 2));
-		console.log("[env] تم تطبيق BOT_PREFIX / BOT_ADMIN_ID");
+		const data = JSON.parse(value);
+		return Array.isArray(data) && data.length > 0 && data.every(item => item && typeof item === "object" && "key" in item && "value" in item);
 	}
 	catch (error) {
-		console.log("[env] تعذّر تعديل config.json:", error.message);
+		return false;
+	}
+}
+
+function isBotConfig(value) {
+	try {
+		const data = JSON.parse(value);
+		return data && typeof data === "object" && !Array.isArray(data) && ("prefix" in data || "database" in data || "facebookAccount" in data || "optionsFca" in data);
+	}
+	catch (error) {
+		return false;
+	}
+}
+
+function pickEnv(preferred, pattern, validate) {
+	for (const name of preferred) {
+		const content = decodeValue(process.env[name]);
+		if (content && validate(content)) return { name, content };
+	}
+	const matched = Object.keys(process.env).filter(key => pattern.test(key));
+	for (const name of matched) {
+		const content = decodeValue(process.env[name]);
+		if (content && validate(content)) return { name, content };
+	}
+	return { name: null, content: null, matched };
+}
+
+function install(fileName, label, preferred, pattern, validate) {
+	const found = pickEnv(preferred, pattern, validate);
+
+	if (!found.content) {
+		const list = (found.matched || []).map(key => `${key}(${String(process.env[key] || "").length})`);
+		console.log(`[env] ✖ لم أجد ${label}. متغيرات مشابهة: ${list.length ? list.join(", ") : "لا شيء"}`);
+		return false;
+	}
+
+	try {
+		fs.writeFileSync(path.join(__dirname, fileName), found.content.trim());
+		console.log(`[env] ✓ ${fileName} أُنشئ من المتغيّر ${found.name}`);
+		return true;
+	}
+	catch (error) {
+		console.log(`[env] تعذّر كتابة ${fileName}: ${error.message}`);
+		return false;
+	}
+}
+
+console.log(`[env] عدد المتغيرات في البيئة: ${Object.keys(process.env).length}`);
+
+install(
+	"account.txt",
+	"كوكيز الحساب",
+	["ACCOUNT_B64", "ACCOUNT_JSON", "ACCOUNT", "APPSTATE", "APPSTATE_B64", "COOKIES"],
+	/account|appstate|cookie/i,
+	isCookieArray
+);
+
+install(
+	"config.json",
+	"إعدادات البوت",
+	["CONFIG_B64", "CONFIG_JSON", "CONFIG", "BOT_CONFIG", "CONFIG_DATA"],
+	/config/i,
+	isBotConfig
+);
+
+/* ————————————————— إصلاح الحقول الإجبارية ————————————————— */
+
+(function fixConfig() {
+	if (!fs.existsSync(CONFIG_PATH)) return;
+
+	let config;
+	try {
+		config = JSON.parse(fs.readFileSync(CONFIG_PATH, "utf8"));
+	}
+	catch (error) {
+		console.log("[env] config.json غير صالح:", error.message);
+		return;
+	}
+
+	let changed = false;
+
+	// credentials مطلوبة من utils.js وإلا يتوقف البوت
+	if (!config.credentials || typeof config.credentials !== "object") {
+		config.credentials = {};
+		changed = true;
+	}
+	if (!config.credentials.gmailAccount || typeof config.credentials.gmailAccount !== "object") {
+		config.credentials.gmailAccount = {};
+		changed = true;
+	}
+	if (!config.credentials.gRecaptcha || typeof config.credentials.gRecaptcha !== "object") {
+		config.credentials.gRecaptcha = { siteKey: "", secretKey: "" };
+		changed = true;
+	}
+
+	const google = config.credentials.gmailAccount;
+	const placeholders = {
+		email: "acard-bot@example.com",
+		clientId: "acard-bot.apps.googleusercontent.com",
+		clientSecret: "acard-bot-client-secret",
+		refreshToken: "acard-bot-refresh-token",
+		apiKey: "acard-bot-api-key"
+	};
+	for (const key of Object.keys(placeholders)) {
+		if (!google[key]) {
+			google[key] = placeholders[key];
+			changed = true;
+		}
+	}
+
+	// أمان إضافي: قاعدة البيانات JSON إن كانت القيمة غير معروفة
+	const validTypes = ["json", "sqlite", "mongodb"];
+	if (config.database && !validTypes.includes(config.database.type)) {
+		config.database.type = "json";
+		changed = true;
+	}
+
+	// تطبيق متغيّرات اختيارية
+	if (process.env.BOT_PREFIX) {
+		config.prefix = process.env.BOT_PREFIX;
+		changed = true;
+	}
+	if (process.env.BOT_ADMIN_ID) {
+		config.adminBot = String(process.env.BOT_ADMIN_ID).split(/[,\s]+/).filter(Boolean);
+		changed = true;
+	}
+
+	if (changed) {
+		try {
+			fs.writeFileSync(CONFIG_PATH, JSON.stringify(config, null, 2));
+			console.log("[env] ✓ تم إصلاح config.json (credentials / إعدادات ناقصة)");
+		}
+		catch (error) {
+			console.log("[env] تعذّر حفظ config.json:", error.message);
+		}
 	}
 })();
+
+/* ————————————————— التشغيل ————————————————— */
 
 function startProject() {
 	const child = spawn("node", ["Goat.js"], {
@@ -94,6 +194,8 @@ function startProject() {
 }
 
 startProject();
+
+/* ————————————————— سيرفر الصحة ————————————————— */
 
 try {
 	const express = require("express");
