@@ -1,93 +1,124 @@
-module.exports = {
-  config: {
-    name: "give",
-    aliases: ["اعطي", "تحويل", "transfer"],
-    version: "1.0",
-    author: "Acard",
-    countDown: 3,
-    role: 0,
-    shortDescription: {
-      ar: "تحويل عملات إلى شخص آخر من رصيدك"
-    },
-    category: "economy",
-    guide: {
-      ar: "{pn} <المبلغ> (بالرد على رسالة الشخص أو منشن له)"
-    }
-  },
+/**
+ * /give — تحويل مال بين الأعضاء (محصّن ضد الخصم المزدوج)
+ * مسار الملف: scripts/cmds/give.js
+ */
 
-  langs: {
-    ar: {
-      missingAmount: "⚠️ | يرجى إدخال المبلغ الذي تريد تحويله\n📌 | مثال: give 500",
-      invalidAmount: "⚠️ | يرجى إدخال مبلغ صحيح أكبر من صفر",
-      noTarget: "⚠️ | يرجى الرد على رسالة الشخص أو منشنه لتحويل المال إليه",
-      noBalance: "❌ | رصيدك غير كاف!\n💳 | رصيدك: %1 دولار\n💰 | المبلغ المطلوب: %2 دولار",
-      cantGiveSelf: "❌ | لا يمكنك تحويل المال لنفسك!",
-      success: "✅ | تــم الــتــحــويــل\n━━━━━━━━━━━━━━━━━\n👤 | من: %1\n👤 | إلى: %2\n💰 | المبلغ: %3 دولار\n💳 | رصيدك الجديد: %4 دولار",
-      received: "📩 | وصــلك تــحــويــل\n━━━━━━━━━━━━━━━━━\n👤 | من: %1\n💰 | المبلغ: +%2 دولار\n💳 | رصيدك الجديد: %3 دولار"
-    }
-  },
+const eco = require("../../func/economy.js");
 
-  onStart: async function ({ message, event, args, usersData, getLang }) {
-    const { senderID, threadID, messageReply, mentions } = event;
+module.exports.config = {
+	name: "give",
+	aliases: ["اعطي", "أعطي", "تحويل", "transfer", "pay", "دفع"],
+	version: "3.0",
+	author: "Acard",
+	countDown: 5,
+	role: 0,
+	category: "economy",
+	shortDescription: "حوّل مالاً إلى عضو آخر (بالرد أو بالمنشن)",
+	guide: {
+		ar: "{pn} <المبلغ> (بالرد على رسالة الشخص أو منشنه)\n" +
+			"   {pn} 500 بالرد على رسالته\n" +
+			"   {pn} all — تحويل كل رصيدك\n" +
+			"   {pn} half — تحويل نصف رصيدك"
+	}
+};
 
-    // التحقق من المبلغ
-    const amount = parseInt(args[0]);
-    if (!amount || amount <= 0) {
-      if (!args[0]) return message.reply(getLang("missingAmount"));
-      return message.reply(getLang("invalidAmount"));
-    }
+function resolveTarget(event, senderID) {
+	const reply = event.messageReply;
+	if (reply && reply.senderID) return String(reply.senderID);
+	const mentions = event.mentions || {};
+	const keys = Object.keys(mentions);
+	if (keys.length > 0) return String(keys[0]);
+	return null;
+}
 
-    // تحديد المستلم
-    let targetID;
-    if (messageReply) {
-      targetID = messageReply.senderID;
-    } else if (Object.keys(mentions).length > 0) {
-      targetID = Object.keys(mentions)[0];
-    } else {
-      return message.reply(getLang("noTarget"));
-    }
+module.exports.onStart = async function ({ api, event, args, usersData }) {
+	const { senderID, threadID, messageID } = event;
+	const raw = String(args[0] || "").trim().toLowerCase();
+	const targetID = resolveTarget(event, senderID);
 
-    // لا يمكن التحويل لنفسك
-    if (targetID === senderID) {
-      return message.reply(getLang("cantGiveSelf"));
-    }
+	if (!targetID) {
+		return api.sendMessage(
+			`💸 | تحويل المال\n━━━━━━━━━━━━━━━━━━━\n` +
+			`📌 | ردّ على رسالة الشخص ثم اكتب: give 500\n` +
+			`📌 | أو منشنه: give 500 @الاسم\n` +
+			`💰 | يمكنك: all (الكل) أو half (النصف)\n` +
+			`💡 | الحد الأدنى: ${eco.MIN_TRANSFER}$ — الحد الأقصى: ${eco.fmt(eco.MAX_TRANSFER)}$`,
+			threadID, messageID
+		);
+	}
 
-    // جلب بيانات المرسل
-    const senderData = await usersData.get(senderID);
-    const senderMoney = senderData?.data?.money ?? 100;
-    const senderName = senderData?.name || "مستخدم";
+	if (targetID === String(senderID)) {
+		return api.sendMessage("🤨 | لا يمكنك تحويل المال لنفسك!", threadID, messageID);
+	}
 
-    // التحقق من الرصيد
-    if (senderMoney < amount) {
-      return message.reply(getLang("noBalance", senderMoney, amount));
-    }
+	const botID = global.GoatBot.botID || (typeof api.getCurrentUserID === "function" ? api.getCurrentUserID() : null);
+	if (botID && targetID === String(botID)) {
+		return api.sendMessage("🤖 | البوت لا يحتاج مالك… شكراً!", threadID, messageID);
+	}
 
-    // جلب بيانات المستلم
-    const targetData = await usersData.get(targetID);
-    const targetMoney = targetData?.data?.money ?? 100;
-    const targetName = targetData?.name || "مستخدم";
+	// حساب المبلغ
+	let amount;
+	if (raw === "all" || raw === "كل" || raw === "الكل") {
+		const me = await usersData.get(senderID);
+		amount = eco.toMoney(me && me.data ? me.data.money : 0);
+	}
+	else if (raw === "half" || raw === "نصف") {
+		const me = await usersData.get(senderID);
+		amount = Math.floor(eco.toMoney(me && me.data ? me.data.money : 0) / 2);
+	}
+	else {
+		amount = eco.parseAmount(args[0]);
+	}
 
-    // خصم من المرسل
-    const newSenderMoney = senderMoney - amount;
-    await usersData.set(senderID, {
-      ...senderData,
-      data: { ...senderData.data, money: newSenderMoney }
-    });
+	if (!Number.isFinite(amount) || amount <= 0) {
+		return api.sendMessage(
+			`⚠️ | اكتب مبلغاً صحيحاً\n📌 | مثال: give 500 (بالرد على رسالة الشخص)`,
+			threadID, messageID
+		);
+	}
+	if (amount < eco.MIN_TRANSFER) {
+		return api.sendMessage(`⚠️ | الحد الأدنى للتحويل هو ${eco.MIN_TRANSFER}$.`, threadID, messageID);
+	}
+	if (amount > eco.MAX_TRANSFER) {
+		return api.sendMessage(`⚠️ | الحد الأقصى للتحويل هو ${eco.fmt(eco.MAX_TRANSFER)}$.`, threadID, messageID);
+	}
 
-    // إضافة للمستلم
-    const newTargetMoney = targetMoney + amount;
-    await usersData.set(targetID, {
-      ...targetData,
-      data: { ...targetData.data, money: newTargetMoney }
-    });
+	const moved = await eco.transfer(usersData, senderID, targetID, amount);
 
-    // رسالة تأكيد للمرسل
-    message.reply(getLang("success", senderName, targetName, amount, newSenderMoney));
+	if (!moved.ok) {
+		if (moved.reason === "poor") {
+			return api.sendMessage(
+				`❌ | رصيدك غير كافٍ!\n💳 | رصيدك: ${eco.fmt(moved.balance)}$\n💰 | المطلوب: ${eco.fmt(amount)}$`,
+				threadID, messageID
+			);
+		}
+		if (moved.reason === "self") {
+			return api.sendMessage("🤨 | لا يمكنك تحويل المال لنفسك!", threadID, messageID);
+		}
+		return api.sendMessage("❌ | تعذّر إتمام التحويل، حاول مجدداً.", threadID, messageID);
+	}
 
-    // إشعار للمستلم
-    message.reply({
-      body: getLang("received", senderName, amount, newTargetMoney),
-      mentions: [{ id: targetID, tag: targetName }]
-    });
-  }
+	const senderName = moved.from.name;
+	const targetName = moved.to.name;
+
+	// إشعار المستلم (مع منشن)
+	api.sendMessage(
+		{
+			body:
+				`📥 | وصلك تحويل!\n━━━━━━━━━━━━━━━━━━━\n` +
+				`👤 | من: ${senderName}\n` +
+				`💰 | المبلغ: +${eco.fmt(amount)}$\n` +
+				eco.balanceLine(moved.to.balance),
+			mentions: [{ id: targetID, tag: targetName }]
+		},
+		threadID
+	);
+
+	return api.sendMessage(
+		`✅ | تم التحويل بنجاح\n━━━━━━━━━━━━━━━━━━━\n` +
+		`📤 | إلى: ${targetName}\n` +
+		`💰 | المبلغ: ${eco.fmt(amount)}$\n` +
+		eco.balanceLine(moved.from.balance),
+		threadID, messageID
+	);
 };
