@@ -1,69 +1,80 @@
+/**
+ * /bet — عجلة الحظ الأسطورية
+ * مسار الملف: scripts/cmds/bet.js
+ * مردود اللعبة المتوقع: 93.5% (لا يمكن ربح المال بلا نهاية)
+ */
+
+const eco = require("../../func/economy.js");
+
 module.exports.config = {
-  name: "bet",
-  version: "5.1",
-  author: "Acard",
-  role: 0,
-  category: "economy",
-  shortDescription: "لعبة المراهنة"
+	name: "bet",
+	aliases: ["مراهنة", "راهن", "رهان"],
+	version: "6.0",
+	author: "Acard",
+	countDown: 8,
+	role: 0,
+	category: "economy",
+	shortDescription: "المراهنة على عجلة الحظ (مردود 93.5%)",
+	guide: { ar: "{pn} <المبلغ>\n   مثال: {pn} 500\n   {pn} all — تراهن بأقصى مبلغ مسموح" }
 };
 
+const SPINS = ["🌀", "🎯", "⚡", "🔥", "💫"];
+
 module.exports.onStart = async function ({ api, event, args, usersData }) {
-  const { senderID, threadID, messageID } = event;
-  if (!args[0]) return api.sendMessage("🎰 | الاستخدام: bet <المبلغ>", threadID, messageID);
+	const { senderID, threadID, messageID } = event;
+	const parsed = eco.parseAmount(args[0]);
 
-  const bet = parseInt(args[0]);
-  if (!bet || bet <= 0) return api.sendMessage("❌ | مبلغ الرهان غير صالح!", threadID, messageID);
+	if (parsed === null) {
+		return api.sendMessage(
+			`🎰 | عجلة الحظ\n━━━━━━━━━━━━━━━━━━━\n` +
+			`📌 | الاستخدام: bet <المبلغ>\n` +
+			`💡 | الحد الأدنى: ${eco.MIN_BET}$ — أقصى رهان: 20% من رصيدك\n` +
+			`🎲 | مثال: bet 500`,
+			threadID, messageID
+		);
+	}
 
-  const userData = await usersData.get(senderID);
-  let balance = userData?.data?.money ?? 100;
+	const result = await eco.withWallet(usersData, senderID, async (w) => {
+		const maxBet = Math.max(eco.MIN_BET, Math.floor(w.money * 0.2));
+		const bet = parsed === "all" ? maxBet : parsed;
 
-  // ✅ حد أقصى 10% مع حد أدنى 50
-  const maxBet = Math.max(50, Math.floor(balance * 0.10));
-  if (bet > maxBet) return api.sendMessage(`❌ | أقصى رهان: ${maxBet.toLocaleString()}$`, threadID, messageID);
-  if (balance < bet) return api.sendMessage(`❌ | رصيدك غير كاف!`, threadID, messageID);
+		if (bet < eco.MIN_BET) return { error: `الحد الأدنى للرهان هو ${eco.MIN_BET}$` };
+		if (bet > maxBet) return { error: `أقصى رهان مسموح: ${eco.fmt(maxBet)}$ (20% من رصيدك)` };
+		if (w.money < bet) return { error: "رصيدك غير كافٍ لهذا الرهان" };
 
-  let maxMultiplier;
-  if (balance < 10000) maxMultiplier = 3;
-  else if (balance < 100000) maxMultiplier = 2;
-  else maxMultiplier = 1;
+		const spin = eco.rollBet();
+		const payout = Math.floor(bet * spin.multiplier);
+		const net = payout - bet;
 
-  const outcomes = [
-    { text: "💥 خسرت كل الرهان!", multiplier: 0 },
-    { text: "😞 استعدت نصف الرهان.", multiplier: 0.5 },
-    { text: "🟡 تعادلت.", multiplier: 1 },
-    { text: "🟢 ضاعفت!", multiplier: 2 },
-    { text: `🔥 ${maxMultiplier} أضعاف`, multiplier: maxMultiplier }
-  ];
+		w.add(net);
+		w.recordGame("bet", net > 0);
+		if (spin.multiplier >= 4) w.stat("bigWins", 1);
 
-  let winChance;
-  if (balance < 10000) winChance = 0.70;
-  else if (balance < 100000) winChance = 0.60;
-  else if (balance < 1000000) winChance = 0.50;
-  else winChance = 0.40;
+		return { bet, spin, payout, net, balance: w.money };
+	});
 
-  const win = Math.random() < winChance;
-  let selected;
-  if (win) {
-    const winOutcomes = outcomes.filter(o => o.multiplier > 0);
-    selected = winOutcomes[Math.floor(Math.random() * winOutcomes.length)];
-  } else {
-    const loseOutcomes = outcomes.filter(o => o.multiplier < 1);
-    selected = loseOutcomes[Math.floor(Math.random() * loseOutcomes.length)];
-  }
+	if (result.error) return api.sendMessage(`❌ | ${result.error}`, threadID, messageID);
 
-  const reward = Math.floor(bet * selected.multiplier);
-  balance = balance - bet + reward;
+	const { bet, spin, net, balance } = result;
+	const icon = eco.pick(SPINS);
 
-  const gamesPlayed = (userData?.data?.gamesPlayed || 0) + 1;
-  const gamesWon = (userData?.data?.gamesWon || 0) + (reward > bet ? 1 : 0);
+	let verdict;
+	if (spin.multiplier === 0) verdict = "💀 | خسارة كاملة…";
+	else if (spin.multiplier < 1) verdict = "😬 | استعدت نصف رهانك فقط";
+	else if (spin.multiplier < 2) verdict = "🟢 | ربح صغير";
+	else if (spin.multiplier < 4) verdict = "🔥 | مضاعفة!";
+	else if (spin.multiplier < 10) verdict = "💥 | ربح كبير!";
+	else verdict = "👑 | الجائزة الكبرى!!!";
 
-  await usersData.set(senderID, {
-    ...userData,
-    data: { ...userData.data, money: balance, gamesPlayed, gamesWon }
-  });
+	const netText = net >= 0 ? `+${eco.fmt(net)}$` : `-${eco.fmt(Math.abs(net))}$`;
 
-  const profit = reward - bet;
-  const profitText = profit >= 0 ? `+${profit.toLocaleString()}` : `${profit.toLocaleString()}`;
-  const msg = `${selected.text}\n🎰 | راهنت: ${bet.toLocaleString()}$\n💸 | ${profitText}$\n💳 | ${balance.toLocaleString()}$`;
-  api.sendMessage(msg, threadID, messageID);
+	const message =
+		`${icon} | عجلة الحظ\n━━━━━━━━━━━━━━━━━━━\n` +
+		`🎲 | رميتك: ${spin.roll} / ${spin.faces}\n` +
+		`${verdict}\n` +
+		`🎯 | ${spin.label} — ${spin.multiplier}x\n` +
+		`💰 | ${netText} (راهنت ${eco.fmt(bet)}$)\n` +
+		eco.balanceLine(balance);
+
+	return api.sendMessage(message, threadID, messageID);
 };
