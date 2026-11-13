@@ -1,5 +1,87 @@
+/**
+ * index.js — مشغّل البوت + صحة الخدمة + إنشاء الملفات السرّية من متغيرات Railway
+ * ---------------------------------------------------------------------------
+ * على Railway لا يمكنك "رفع" ملفات، لذلك يمكن تمرير:
+ *   - ACCOUNT_B64  (أو ACCOUNT_JSON) → يُكتب إلى account.txt
+ *   - CONFIG_B64   (أو CONFIG_JSON)  → يُكتب إلى config.json
+ *   - BOT_PREFIX   (اختياري) → يغيّر البادئة في config.json
+ *   - BOT_ADMIN_ID (اختياري) → يعيّن أدمن البوت (مفصولة بفاصلة)
+ *
+ * إن لم تكن هذه المتغيرات موجودة، يعمل الملف كما كان تماماً (يقرأ الملفات من المشروع).
+ */
+
+const fs = require("fs");
+const path = require("path");
 const { spawn } = require("child_process");
 const log = require("./logger/log.js");
+
+/* ————————————————— إنشاء الملفات من متغيرات البيئة ————————————————— */
+
+function decodeValue(raw) {
+	if (!raw) return null;
+	const text = String(raw).trim();
+	if (!text) return null;
+	if (text.startsWith("{") || text.startsWith("[")) return text;
+
+	const cleaned = text.replace(/\s+/g, "");
+	if (!/^[A-Za-z0-9+/=]+$/.test(cleaned)) return null;
+	try {
+		const decoded = Buffer.from(cleaned, "base64").toString("utf8").trim();
+		if (decoded.startsWith("{") || decoded.startsWith("[")) return decoded;
+	}
+	catch (error) { /* تجاهل */ }
+	return null;
+}
+
+function materialize(fileName, envNames) {
+	for (const envName of envNames) {
+		const content = decodeValue(process.env[envName]);
+		if (!content) continue;
+		try {
+			JSON.parse(content);
+		}
+		catch (error) {
+			console.log(`[env] ${envName} ليس JSON صالحاً — تم تجاهله`);
+			continue;
+		}
+		const target = path.join(__dirname, fileName);
+		try {
+			fs.writeFileSync(target, content.trim());
+			console.log(`[env] ${fileName} تم إنشاؤه من ${envName}`);
+		}
+		catch (error) {
+			console.log(`[env] تعذّر كتابة ${fileName}:`, error.message);
+		}
+		return true;
+	}
+	return false;
+}
+
+materialize("account.txt", ["ACCOUNT_B64", "ACCOUNT_JSON"]);
+materialize("config.json", ["CONFIG_B64", "CONFIG_JSON"]);
+
+// تعديلات سريعة بدون لمس الملفات
+(function applyOverrides() {
+	const prefix = process.env.BOT_PREFIX;
+	const adminId = process.env.BOT_ADMIN_ID;
+	if (!prefix && !adminId) return;
+
+	const target = path.join(__dirname, "config.json");
+	if (!fs.existsSync(target)) return;
+
+	try {
+		const config = JSON.parse(fs.readFileSync(target, "utf8"));
+		if (prefix) config.prefix = prefix;
+		if (adminId) config.adminBot = String(adminId).split(/[,\s]+/).filter(Boolean);
+		fs.writeFileSync(target, JSON.stringify(config, null, 2));
+		console.log("[env] تم تطبيق BOT_PREFIX / BOT_ADMIN_ID");
+	}
+	catch (error) {
+		console.log("[env] تعذّر تعديل config.json:", error.message);
+	}
+})();
+
+/* ————————————————— تشغيل البوت ————————————————— */
 
 function startProject() {
 	const child = spawn("node", ["Goat.js"], {
@@ -18,22 +100,25 @@ function startProject() {
 
 startProject();
 
-// ————————————————————————————————————————————————
-// سيرفر صغير للصحة (Health) — يستمع على المنفذ الذي تعطيه منصة الاستضافة
-// Railway / Render / Replit تعطي المنفذ في المتغير PORT
-// ————————————————————————————————————————————————
-const express = require('express');
-const app = express();
-const PORT = process.env.PORT || 3000;
+/* ————————————————— سيرفر الصحة (Railway) ————————————————— */
 
-app.get('/', (req, res) => {
-  res.send('Bot is running!');
-});
+try {
+	const express = require("express");
+	const app = express();
+	const PORT = process.env.PORT || 3000;
 
-app.get('/uptime', (req, res) => {
-  res.status(200).json({ ok: true, uptime: process.uptime() });
-});
+	app.get("/", (req, res) => {
+		res.send("Bot is running!");
+	});
 
-app.listen(PORT, '0.0.0.0', () => {
-  console.log(`Uptime server running on port ${PORT}`);
-});
+	app.get("/uptime", (req, res) => {
+		res.status(200).json({ ok: true, uptime: process.uptime() });
+	});
+
+	app.listen(PORT, "0.0.0.0", () => {
+		console.log(`Uptime server running on port ${PORT}`);
+	});
+}
+catch (error) {
+	console.log("Uptime server skipped:", error.message);
+}
