@@ -1,62 +1,74 @@
+/**
+ * /daily — المكافأة اليومية مع سلسلة الأيام
+ * مسار الملف: scripts/cmds/daily.js
+ */
+
+const eco = require("../../func/economy.js");
+
 module.exports.config = {
-  name: "daily",
-  version: "2.0",
-  author: "Acard",
-  role: 0,
-  category: "economy",
-  shortDescription: "المكافأة اليومية العشوائية"
+	name: "daily",
+	aliases: ["يومي", "مكافاة", "مكافأة"],
+	version: "4.0",
+	author: "Acard",
+	countDown: 5,
+	role: 0,
+	category: "economy",
+	shortDescription: "مكافأتك اليومية — كل يوم متتالٍ يزيد الجائزة",
+	guide: { ar: "{pn}" }
 };
 
+const REWARDS = [400, 700, 1000, 1400, 1800, 2300, 3000];
+const COOLDOWN = 22 * 60 * 60 * 1000;
+const STREAK_WINDOW = 48 * 60 * 60 * 1000;
+
 module.exports.onStart = async function ({ api, event, usersData }) {
-  const { senderID, threadID, messageID } = event;
+	const { senderID, threadID, messageID } = event;
 
-  // جلب جميع بيانات المستخدم
-  const userData = await usersData.get(senderID);
-  
-  // الرصيد الحالي
-  let money = userData?.data?.money ?? 100;
-  
-  // وقت آخر مكافأة
-  let lastDaily = userData?.data?.lastDaily ?? 0;
+	const result = await eco.withWallet(usersData, senderID, async (w) => {
+		const last = eco.num(w.get("lastDaily", 0), 0);
+		const now = Date.now();
+		const gap = now - last;
 
-  const now = Date.now();
-  const cooldown = 24 * 60 * 60 * 1000; // 24 ساعة
+		if (last > 0 && gap < COOLDOWN) {
+			return { wait: COOLDOWN - gap, streak: eco.num(w.get("dailyStreak", 1), 1), balance: w.money };
+		}
 
-  // التحقق من وقت الاستخدام السابق
-  if (now - lastDaily < cooldown) {
-    const remaining = cooldown - (now - lastDaily);
-    const hour = Math.floor(remaining / 3600000);
-    const minute = Math.floor((remaining % 3600000) / 60000);
+		let streak = eco.num(w.get("dailyStreak", 0), 0);
+		if (last > 0 && gap <= STREAK_WINDOW) streak += 1;
+		else streak = 1;
+		if (streak > 7) streak = 7;
 
-    return api.sendMessage(
-      `⏳ | لقد حصلت على مكافأتك اليومية بالفعل!\n\n⏰ | عد بعد: ${hour} ساعة و ${minute} دقيقة`,
-      threadID,
-      messageID
-    );
-  }
+		const reward = REWARDS[streak - 1];
+		w.add(reward);
+		w.set("lastDaily", now);
+		w.set("dailyStreak", streak);
+		w.stat("dailyClaims", 1);
 
-  // 🎲 جائزة عشوائية بين 500 و 5000 (مضاعفات 500)
-  const min = 1;
-  const max = 10;
-  const randomMultiplier = Math.floor(Math.random() * (max - min + 1)) + min;
-  const bonus = randomMultiplier * 500;
+		return { reward, streak, balance: w.money, balanceBefore: w.money - reward };
+	});
 
-  // إضافة الجائزة للرصيد
-  money += bonus;
+	if (result.wait) {
+		return api.sendMessage(
+			`⏳ | أخذت مكافأتك بالفعل!\n━━━━━━━━━━━━━━━━━━━\n` +
+			`🔥 | سلسلتك الحالية: ${result.streak} يوم\n` +
+			`⏰ | عد بعد: ${eco.timeLeft(result.wait)}\n` +
+			eco.balanceLine(result.balance),
+			threadID, messageID
+		);
+	}
 
-  // ✅ حفظ بنفس طريقة الأوامر الأخرى
-  await usersData.set(senderID, {
-    ...userData,
-    data: {
-      ...userData.data,
-      money: money,
-      lastDaily: now
-    }
-  });
+	const nextDay = Math.min(result.streak + 1, 7);
+	const nextReward = REWARDS[nextDay - 1];
+	const chest = result.streak === 7 ? "\n👑 | أكملت أسبوعاً كاملاً! جائزة قصوى" : "";
 
-  api.sendMessage(
-    `🎁 | المكافأة اليومية!\n━━━━━━━━━━━━━━━━━\n💰 | ربحت: +${bonus} دولار\n💳 | رصيدك الجديد: ${money} دولار\n\n🎲 | الجائزة عشوائية بين 500 و 5000`,
-    threadID,
-    messageID
-  );
+	return api.sendMessage(
+		`🎁 | المكافأة اليومية\n━━━━━━━━━━━━━━━━━━━\n` +
+		`🔥 | السلسلة: ${result.streak} / 7 يوم\n` +
+		`💰 | ربحت: +${eco.fmt(result.reward)}$\n` +
+		eco.balanceLine(result.balance) +
+		chest +
+		`\n\n📅 | غداً: +${eco.fmt(nextReward)}$ إن عدت في الوقت` +
+		`\n💡 | المكافأة أكبر كل يوم متتالٍ — لا تقطع السلسلة!`,
+		threadID, messageID
+	);
 };
