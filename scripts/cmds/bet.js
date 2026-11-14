@@ -48,6 +48,7 @@ module.exports.onStart = async function ({ api, event, args, usersData }) {
 
 		w.add(net);
 		w.recordGame("bet", net > 0);
+		if (net > 0) w.best("biggestWin", net);
 		if (spin.multiplier >= 4) w.stat("bigWins", 1);
 
 		return { bet, spin, payout, net, balance: w.money };
