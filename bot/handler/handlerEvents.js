@@ -187,6 +187,19 @@ module.exports = function (api, threadModel, userModel, dashBoardModel, globalMo
 			}
 
 			if (isBannedOrOnlyAdmin(userData, threadData, senderID, threadID, isGroup, commandName, message, langCode)) return;
+
+			// ⬇️ كتم من المتجر (shop): يمنع العضو من استخدام البوت حتى انتهاء المدة
+			const mutedUntil = Number((userData && userData.data && userData.data.muteUntil) || 0);
+			if (mutedUntil > dateNow) {
+				const leftMs = mutedUntil - dateNow;
+				const leftHours = Math.floor(leftMs / 3600000);
+				const leftMinutes = Math.max(1, Math.ceil((leftMs % 3600000) / 60000));
+				if (!hideNotiMessage.userBanned) {
+					return await message.reply(`🔇 | أنت مكتوم ولا تستطيع استخدام البوت.\n⏳ | المتبقي: ${leftHours > 0 ? leftHours + " ساعة و " : ""}${leftMinutes} دقيقة`);
+				}
+				return;
+			}
+
 			if (!command) return;
 
 			const roleConfig = getRoleConfig(utils, command, isGroup, threadData, commandName);
@@ -339,6 +352,19 @@ module.exports = function (api, threadModel, userModel, dashBoardModel, globalMo
 			createMessageSyntaxError(commandName);
 			try {
 				if (isBannedOrOnlyAdmin(userData, threadData, senderID, threadID, isGroup, commandName, message, langCode)) return;
+
+				// ⬇️ كتم من المتجر (shop) — يُطبَّق أيضاً على الردود والألعاب
+				const replyMutedUntil = Number((userData && userData.data && userData.data.muteUntil) || 0);
+				if (replyMutedUntil > Date.now()) {
+					const leftMs = replyMutedUntil - Date.now();
+					const leftHours = Math.floor(leftMs / 3600000);
+					const leftMinutes = Math.max(1, Math.ceil((leftMs % 3600000) / 60000));
+					if (!hideNotiMessage.userBanned) {
+						await message.reply(`🔇 | أنت مكتوم ولا تستطيع استخدام البوت.\n⏳ | المتبقي: ${leftHours > 0 ? leftHours + " ساعة و " : ""}${leftMinutes} دقيقة`);
+					}
+					return;
+				}
+
 				const args = body ? body.split(/ +/) : [];
 				await command.onReply({ ...parameters, Reply, args, commandName, getLang: getText2 });
 			}
