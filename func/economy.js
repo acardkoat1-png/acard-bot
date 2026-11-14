@@ -166,6 +166,18 @@ class Wallet {
 		if (kind) this.stat(kind + "Plays", 1);
 	}
 
+	/** يسجّل أعلى قيمة (لا يجمع) — مثل أكبر ربح */
+	best(name, value) {
+		const stats = this.data.stats && typeof this.data.stats === "object" ? this.data.stats : {};
+		const amount = num(value, 0);
+		if (amount > num(stats[name], 0)) {
+			stats[name] = amount;
+			this.set("stats", stats);
+			return amount;
+		}
+		return num(stats[name], 0);
+	}
+
 	async save() {
 		if (!this.dirty) return;
 		const id = this.user && this.user.userID;
